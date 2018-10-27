@@ -1,19 +1,16 @@
 package me.bestsamcn.blog.models;
 
+import org.springframework.stereotype.Repository;
+
 /**
  * @Author: Sam
  * @Date: 2018/10/26 0:35
  */
+@Repository("user")
 public class User {
     private String id;
     private String name;
     private String password;
-
-    public User(String id, String name, String password) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-    }
 
     @Override
     public String toString() {

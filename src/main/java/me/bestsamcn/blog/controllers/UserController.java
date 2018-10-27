@@ -13,11 +13,13 @@ import java.util.Map;
  */
 @Controller
 public class UserController {
+
     @ResponseBody
     @RequestMapping("/json")
     public Map<String, String> json(){
         Map<String, String> map = new HashMap();
         map.put("name", "123");
+
         return map;
     }
     @RequestMapping("/")
