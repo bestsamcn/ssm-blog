@@ -4,82 +4,68 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="
-        http://www.springframework.org/schema/beans
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
-    <!-- 自动加载构建bean -->
-    <context:component-scan base-package="me.bestsamcn.blog.dao" />
-    <context:component-scan base-package="me.bestsamcn.blog.services" />
+        http://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 
-    <context:property-placeholder location="classpath:jdbc.properties" />
+    <!--扫描除controller外的类, 避免与mvc扫描重复-->
+    <context:component-scan base-package="me.bestsamcn.blog">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
 
-    <!-- 2.数据库连接池 -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <!-- 配置连接池属性 -->
-        <property name="driverClass" value="${jdbc.driverClassName}" />
-        <property name="jdbcUrl" value="${jdbc.url}" />
-        <property name="user" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
+    <!-- 配置C3P0数据连接池 -->
+    <!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+        <!--<property name="user" value="${jdbc.username}"></property>-->
+        <!--<property name="password" value="${jdbc.password}"></property>-->
+        <!--<property name="driverClass" value="${jdbc.driverClassName}"></property>-->
+        <!--<property name="jdbcUrl" value="${jdbc.url}"></property>-->
+        <!--<property name="acquireIncrement" value="${jdbc.acquireIncrement}"></property>-->
+        <!--<property name="initialPoolSize" value="${jdbc.initialPoolSize}"></property>-->
+        <!--<property name="minPoolSize" value="${jdbc.minPoolSize}"></property>-->
+        <!--<property name="maxPoolSize" value="${jdbc.maxPoolSize}"></property>-->
+        <!--<property name="maxStatements" value="${jdbc.maxStatements}"></property>-->
+        <!--<property name="maxStatementsPerConnection" value="${jdbc.maxStatementsPerConnection}"></property>-->
+    <!--</bean>-->
 
-        <!-- c3p0连接池的私有属性 -->
-        <property name="maxPoolSize" value="30" />
-        <property name="minPoolSize" value="10" />
-        <!-- 关闭连接后不自动commit -->
-        <property name="autoCommitOnClose" value="false" />
-        <!-- 获取连接超时时间 -->
-        <property name="checkoutTimeout" value="10000" />
-        <!-- 当获取连接失败重试次数 -->
-        <property name="acquireRetryAttempts" value="2" />
-    </bean>
+    <!--&lt;!&ndash; 事务配置 &ndash;&gt;-->
+    <!--<bean id="transactionManager"-->
+          <!--class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+        <!--<property name="dataSource" ref="dataSource"></property>-->
+    <!--</bean>-->
 
 
-    <!-- 配置mybatis的sqlSessionFactory -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
+    <!--&lt;!&ndash; 配置事务属性 &ndash;&gt;-->
+    <!--<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+        <!--<tx:attributes>-->
+            <!--<tx:method name="get*" read-only="true"/>-->
+            <!--<tx:method name="load*" read-only="true"/>-->
+            <!--<tx:method name="find*" read-only="true"/>-->
+            <!--<tx:method name="select*" read-only="true"/>-->
+            <!--<tx:method name="*" read-only="false"/>-->
+        <!--</tx:attributes>-->
+    <!--</tx:advice>-->
 
-        <!-- 自动扫描mappers.xml文件 -->
-        <property name="mapperLocations" value="classpath:mappers/*.xml" />
+    <!--&lt;!&ndash; 配置事务的切入点 &ndash;&gt;-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut expression="execution(* me.bestsamcn.blog.services.*.*(..))"-->
+                      <!--id="txPointcut"/>-->
+        <!--<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>-->
+    <!--</aop:config>-->
 
-        <!-- mybatis配置文件 -->
-        <property name="configLocation" value="classpath:spring-mybatis.xml" />
-    </bean>
+    <!--&lt;!&ndash; 整合Mybatis &ndash;&gt;-->
+    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource" />-->
+        <!--<property name="configLocation" value="classpath:spring-mybatis.xml" />-->
+        <!--<property name="mapperLocations" value="classpath:mappers/*.xml" />-->
+    <!--</bean>-->
 
-    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="me.bestsamcn.blog.dao" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-    </bean>
-    <!-- - - - - - - spring 声明式事务 - - - - - - - -->
-    <bean id="transactionManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-
-    <!-- 注解方式配置事物 -->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    <aop:config>
-        <aop:pointcut id="targetMethod" expression="execution(* me.bestsamcn.blog.services.*.*(..))" />
-        <aop:advisor pointcut-ref="targetMethod"  advice-ref="transactionAdvice"/>
-    </aop:config>
-    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="save*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
-            <tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
-            <tx:method name="create*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
-            <tx:method name="insert*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
-            <tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
-            <tx:method name="edit*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
-            <tx:method name="del*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
-            <tx:method name="drop*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
-            <tx:method name="modify*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
-            <tx:method name="*" propagation="REQUIRED" read-only="true"/>
-        </tx:attributes>
-    </tx:advice>
+    <!--<mybatis-spring:scan base-package="me.bestsamcn.blog.dao"/>-->
 </beans>

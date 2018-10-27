@@ -9,18 +9,22 @@
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
-    <!-- 1.开启SpringMVC注解模式 -->
-    <mvc:annotation-driven />
+    <!-- 配置包扫描 -->
+    <context:component-scan base-package="me.bestsamcn.blog" use-default-filters="false">
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
 
-    <mvc:default-servlet-handler/>
-
-    <!-- 3.配置jsp 显示ViewResolver -->
+    <!--综合配置简化-->
+    <mvc:annotation-driven/>
+    <!--视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-        <property name="prefix" value="/WEB-INF/jsp/" />
-        <property name="suffix" value=".jsp" />
+        <property name="prefix" value="/WEB-INF/jsp"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!-- 4.扫描web相关的bean -->
-    <context:component-scan base-package="me.bestsamcn.blog.controllers" />
+    <!--静态资源处理-->
+    <mvc:default-servlet-handler/>
 </beans>
