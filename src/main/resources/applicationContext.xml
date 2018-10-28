@@ -23,16 +23,16 @@
     <!-- 配置C3P0数据连接池 -->
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="user" value="${jdbc.username}"></property>
-        <property name="password" value="${jdbc.password}"></property>
-        <property name="driverClass" value="${jdbc.driverClassName}"></property>
-        <property name="jdbcUrl" value="${jdbc.url}"></property>
-        <property name="acquireIncrement" value="${jdbc.acquireIncrement}"></property>
-        <property name="initialPoolSize" value="${jdbc.initialPoolSize}"></property>
-        <property name="minPoolSize" value="${jdbc.minPoolSize}"></property>
-        <property name="maxPoolSize" value="${jdbc.maxPoolSize}"></property>
-        <property name="maxStatements" value="${jdbc.maxStatements}"></property>
-        <property name="maxStatementsPerConnection" value="${jdbc.maxStatementsPerConnection}"></property>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClass" value="${jdbc.driverClassName}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="acquireIncrement" value="${jdbc.acquireIncrement}"/>
+        <property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
+        <property name="minPoolSize" value="${jdbc.minPoolSize}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
+        <property name="maxStatements" value="${jdbc.maxStatements}"/>
+        <property name="maxStatementsPerConnection" value="${jdbc.maxStatementsPerConnection}"/>
     </bean>
 
     <!-- 事务配置 -->
@@ -66,6 +66,9 @@
         <property name="configLocation" value="classpath:spring-mybatis.xml" />
         <property name="mapperLocations" value="classpath:mappers/*.xml" />
     </bean>
-
-    <mybatis-spring:scan base-package="me.bestsamcn.blog.dao"/>
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="me.bestsamcn.blog.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
 </beans>

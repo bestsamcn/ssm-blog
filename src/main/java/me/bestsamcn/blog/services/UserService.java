@@ -1,8 +1,11 @@
 package me.bestsamcn.blog.services;
 
+import me.bestsamcn.blog.models.User;
+
 /**
  * @Author: Sam
- * @Date: 2018/10/26 0:40
+ * @Date: 2018/10/26 0:40int
  */
-public class UserService {
+public interface UserService{
+    public User findUserById(int id);
 }

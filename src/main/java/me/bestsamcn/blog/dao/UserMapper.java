@@ -7,5 +7,5 @@ import me.bestsamcn.blog.models.User;
  * @Date: 2018/10/26 0:40
  */
 public interface UserMapper {
-    public User findUserById(String id);
+    public User findUserById(int id);
 }

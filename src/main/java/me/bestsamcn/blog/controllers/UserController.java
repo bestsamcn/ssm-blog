@@ -1,5 +1,8 @@
 package me.bestsamcn.blog.controllers;
 
+import me.bestsamcn.blog.models.User;
+import me.bestsamcn.blog.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,13 +17,17 @@ import java.util.Map;
 @Controller
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
+
     @ResponseBody
     @RequestMapping("/json")
-    public Map<String, String> json(){
+    public User json(){
         Map<String, String> map = new HashMap();
         map.put("name", "123");
-
-        return map;
+        User user = userService.findUserById(1);
+        return user;
     }
     @RequestMapping("/")
     public String index(){
