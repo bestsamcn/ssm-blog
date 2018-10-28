@@ -12,12 +12,6 @@
     <!--   <url>http://maven.apache.org</url>-->
     <url>http://repo.maven.apache.org/maven2</url>
 
-    <properties>
-        <spring_version>5.1.1.RELEASE</spring_version>
-        <mybatis_version>3.4.6</mybatis_version>
-
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -55,18 +49,18 @@
             <artifactId>spring-aspects</artifactId>
             <version>5.0.6.RELEASE</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>javax.servlet-api</artifactId>-->
-            <!--<version>3.1.0</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>javax.servlet.jsp</groupId>-->
-            <!--<artifactId>jsp-api</artifactId>-->
-            <!--<version>2.2</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.2</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
