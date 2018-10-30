@@ -6,7 +6,7 @@
 <generatorConfiguration>
 
 
-    <!--targetRuntime用MyBatis3, 也就是默认的, 其他我基本不会用-->
+    <!--targetRuntime用MyBatis3, 也就是默认的-->
     <context id="DB2Tables" targetRuntime="MyBatis3">
 
         <commentGenerator>
