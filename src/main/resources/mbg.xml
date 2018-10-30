@@ -33,18 +33,7 @@
         </javaTypeResolver>
 
         <!--Domain生成器-->
-        <javaModelGenerator targetPackage="me.bestsamcn.blog.models" targetProject=".\src\main\java">
-            <!--据说可以自动添加schema名, 可是我没用到过-->
-            <property name="enableSubPackages" value="true"/>
-
-            <!--生成全属性构造器, 没什么用, 如果有指定immutable元素的话这个会被忽略-->
-            <property name="constructorBased" value="true"/>
-
-            <!--生成不可变的domain, 这个我也很少用-->
-            <property name="immutable" value="true"/>
-
-            <!--每个Domain都继承这个bean-->
-            <!--<property name="rootClass" value="com.github.prontera.domain.base.BasicEntity"/>-->
+        <javaModelGenerator targetPackage="me.bestsamcn.blog.models" targetProject="./src/main/java">
 
             <!--当遇到String的时候setter是否会先trim()-->
             <property name="trimStrings" value="true"/>
@@ -58,42 +47,14 @@
         <!--Mapper生成器, 当type为ANNOTATEDMAPPER时是带有@annotation的Mapper, MIXEDMAPPER是XML文件-->
         <javaClientGenerator type="XMLMAPPER" targetPackage="me.bestsamcn.blog.dao" targetProject="./src/main/java">
             <property name="enableSubPackages" value="true"/>
-
-            <!--每个Mapper所继承的接口-->
-            <!--<property name="rootInterface" value="com.github.prontera.Mapper"/>-->
         </javaClientGenerator>
 
-        <!--字段命名策略过程: <columnRenamingRule> >> property name="useActualColumnNames"-->
-        <!--alias属性是个神器, 会为所有SQL都添加, 做关联的时候就非常方便了-->
-        <!--至于什么Example, 全关了就是-->
         <table alias="ha" tableName="ALLTYPES" domainObjectName="Customer"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-
-            <!--指定是否用数据库中真实的字段名, 而不是采用MBG转换后的驼峰-->
-            <property name="useActualColumnNames" value="true"/>
-
-            <!--自动集成改类-->
-            <!--<property name="rootClass" value="com.github.prontera.domain.base.HelloBasicClass"/>-->
-
-            <!--Mapper自动继承的接口-->
-            <!--<property name="rootInterface" value="com.github.prontera.Mapper"/>-->
-
             <!--当遇到String的时候setter是否会先trim()-->
             <property name="trimStrings" value="true"/>
-
-            <!--先进行columnRenamingRule, 再进行useActualColumnNames. 如果有columnOverride则忽略该配置-->
-            <!--关于columnRenamingRule的具体例子 http://www.mybatis.org/generator/configreference/columnRenamingRule.html-->
-            <columnRenamingRule searchString="^CUST_" replaceString=""/>
-
-            <!--顾名思义, 忽略某些列-->
-            <ignoreColumn column="CREATE_TIME"/>
-
-            <!--也是忽略数据列, 但是可以通过正则表达式, except子元素是可选的, 代表忽略除UPDATE_TIME外的列-->
-            <ignoreColumnsByRegex pattern=".*_TIME$">
-                <except column="UPDATE_TIME"/>
-            </ignoreColumnsByRegex>
         </table>
 
     </context>
