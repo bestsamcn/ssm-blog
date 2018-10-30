@@ -5,33 +5,28 @@ import me.bestsamcn.blog.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author: Sam
- * @Date: 2018/10/26 0:35
+ * @Date: 2018/10/30 20:53
  */
-@Controller
+
+@Controller("adminController")
 public class AdminController {
 
     @Autowired
-    private AdminService adminService;
+    AdminService adminService;
 
-
+    @RequestMapping(name="根据用户id获取用户", value="/getAdminById")
     @ResponseBody
-    @RequestMapping("/json")
-    public Admin json(){
-        Map<String, String> map = new HashMap();
-        map.put("name", "123");
-        Admin admin = adminService.findUserById(1);
-        return admin;
+    public Admin getAdminById(@RequestParam("id") String id){
+        return adminService.getAdminById(id);
     }
-    @RequestMapping("/")
+
+    @RequestMapping(name="静态", value="/")
     public String index(){
         return "/test";
     }
-
 }

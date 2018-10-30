@@ -1,11 +1,19 @@
 package me.bestsamcn.blog.dao;
 
 import me.bestsamcn.blog.models.Admin;
+import org.springframework.stereotype.Repository;
 
-/**
- * @Author: Sam
- * @Date: 2018/10/26 0:40
- */
+@Repository
 public interface AdminMapper {
-    public Admin findUserById(int id);
+    int deleteByPrimaryKey(String id);
+
+    int insert(Admin record);
+
+    int insertSelective(Admin record);
+
+    Admin selectByPrimaryKey(String id);
+
+    int updateByPrimaryKeySelective(Admin record);
+
+    int updateByPrimaryKey(Admin record);
 }

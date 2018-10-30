@@ -8,16 +8,17 @@ import org.springframework.stereotype.Service;
 
 /**
  * @Author: Sam
- * @Date: 2018/10/28 18:18
+ * @Date: 2018/10/30 20:57
  */
-@Service("adminService")
-public class AdminServiceImpl implements AdminService{
+
+@Service
+public class AdminServiceImpl implements AdminService {
 
     @Autowired
-    private AdminMapper adminMapper;
+    AdminMapper adminMapper;
 
     @Override
-    public Admin findUserById(int id) {
-        return adminMapper.findUserById(id);
+    public Admin getAdminById(String id) {
+        return adminMapper.selectByPrimaryKey(id);
     }
 }

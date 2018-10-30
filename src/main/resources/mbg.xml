@@ -23,12 +23,6 @@
 
         <!--Java类型解析器, 目前也就只有forceBigDecimals可以给你玩-->
         <javaTypeResolver>
-            <!--当数据类型为DECIMAL或者NUMERIC的时候, 如果是true的话则总是使用java.math.BigDecimal-->
-            <!--以下是false, 即默认值的情况-->
-            <!--如果有小数或者decimal长度大于18, Java类型为BigDecimal-->
-            <!--如果没有小数, 以及decimal长度为10至18, Java类型为Long-->
-            <!--如果没有小数, 以及decimal长度为5至9, Java类型为Integer-->
-            <!--如果没有小数, 以及decimal长度少于5, Java类型为Short-->
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
@@ -40,7 +34,7 @@
         </javaModelGenerator>
 
         <!--Mapping生成器-->
-        <sqlMapGenerator targetPackage="./src/resources/mappers" targetProject="./src/main/java">
+        <sqlMapGenerator targetPackage="mappers" targetProject="./src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
@@ -49,7 +43,9 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table alias="ha" tableName="ALLTYPES" domainObjectName="Customer"
+
+        <!--需要自动化的表信息-->
+        <table alias="admin" tableName="t_admin" domainObjectName="Admin"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

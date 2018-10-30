@@ -1,102 +1,126 @@
 package me.bestsamcn.blog.models;
 
-import org.springframework.stereotype.Repository;
+import java.util.Date;
 
-import java.sql.Timestamp;
 
-/**
- * @Author: Sam
- * @Date: 2018/10/26 0:35
- */
-@Repository
 public class Admin {
     private String id;
-    private String account;
-    private String password;
-    private String avatar;
-    private String email;
-    private String mobile;
-    private Timestamp createTime;
-    private String createIp;
-    private Timestamp lastUpdateTime;
-    private Timestamp lastLoginTime;
-    private String userType;
-    private Timestamp setAdminTime;
 
-    public void setId(String id){
-        this.id = id;
+    private String account;
+
+    private String password;
+
+    private String avatar;
+
+    private String email;
+
+    private String mobile;
+
+    private Date createTime;
+
+    private String createIp;
+
+    private Date lastLoginTime;
+
+    private String userType;
+
+    private Date setAdminTime;
+
+    private Date lastUpdateTime;
+
+    public String getId() {
+        return id;
     }
-    public String getId(){
-        return this.id;
+
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
-    public void setAccount(String account){
-        this.account = account;
+
+    public String getAccount() {
+        return account;
     }
-    public String getAccount(){
-        return this.account;
+
+    public void setAccount(String account) {
+        this.account = account == null ? null : account.trim();
     }
-    public void setPassword(String password){
-        this.password = password;
+
+    public String getPassword() {
+        return password;
     }
-    public String getPassword(){
-        return this.password;
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
-    public void setAvatar(String avatar){
-        this.avatar = avatar;
+
+    public String getAvatar() {
+        return avatar;
     }
-    public String getAvatar(){
-        return this.avatar;
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
     }
-    public void setEmail(String email){
-        this.email = email;
+
+    public String getEmail() {
+        return email;
     }
-    public String getEmail(){
-        return this.email;
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
-    public void setMobile(String mobile){
-        this.mobile = mobile;
+
+    public String getMobile() {
+        return mobile;
     }
-    public String getMobile(){
-        return this.mobile;
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
     }
-    public void setCreateTime(Timestamp createTime){
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-    public Timestamp getCreateTime(){
-        return this.createTime;
+
+    public String getCreateIp() {
+        return createIp;
     }
-    public void setCreateIp(String createIp){
-        this.createIp = createIp;
+
+    public void setCreateIp(String createIp) {
+        this.createIp = createIp == null ? null : createIp.trim();
     }
-    public String getCreateIp(){
-        return this.createIp;
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
     }
-    public void setLastUpateTime(Timestamp lastUpdateTime){
-        this.lastUpdateTime = lastUpdateTime;
-    }
-    public Timestamp getLastUpdateTime(){
-        return this.lastUpdateTime;
-    }
-    public void setLastLoginTime(Timestamp lastLoginTime){
+
+    public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public Timestamp getLastLoginTime(){
-        return this.lastLoginTime;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setUserType(String userType){
-        this.userType = userType;
+    public void setUserType(String userType) {
+        this.userType = userType == null ? null : userType.trim();
     }
 
-    public String getUserType(){
-        return this.userType;
+    public Date getSetAdminTime() {
+        return setAdminTime;
     }
-    public void setSetAdminTime(Timestamp setAdminTime){
+
+    public void setSetAdminTime(Date setAdminTime) {
         this.setAdminTime = setAdminTime;
     }
-    public Timestamp getSetAdminTime(){
-        return this.setAdminTime;
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Date lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
     }
 }
-

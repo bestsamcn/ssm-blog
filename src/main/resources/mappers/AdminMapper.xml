@@ -1,9 +1,180 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.bestsamcn.blog.dao.AdminMapper">
-    <select id="findUserById" parameterType="int"  resultType="me.bestsamcn.blog.models.Admin">
-        SELECT * FROM public.t_user WHERE id = #{value}
-    </select>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.bestsamcn.blog.dao.AdminMapper" >
+  <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.Admin" >
+    <id column="admin_id" property="id" jdbcType="CHAR" />
+    <result column="admin_account" property="account" jdbcType="VARCHAR" />
+    <result column="admin_password" property="password" jdbcType="VARCHAR" />
+    <result column="admin_avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="admin_email" property="email" jdbcType="VARCHAR" />
+    <result column="admin_mobile" property="mobile" jdbcType="CHAR" />
+    <result column="admin_create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="admin_create_ip" property="createIp" jdbcType="VARCHAR" />
+    <result column="admin_last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="admin_user_type" property="userType" jdbcType="CHAR" />
+    <result column="admin_set_admin_time" property="setAdminTime" jdbcType="TIMESTAMP" />
+    <result column="admin_last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    admin.id as admin_id, admin.account as admin_account, admin.password as admin_password, 
+    admin.avatar as admin_avatar, admin.email as admin_email, admin.mobile as admin_mobile, 
+    admin.create_time as admin_create_time, admin.create_ip as admin_create_ip, admin.last_login_time as admin_last_login_time, 
+    admin.user_type as admin_user_type, admin.set_admin_time as admin_set_admin_time, 
+    admin.last_update_time as admin_last_update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_admin admin
+    where admin.id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_admin
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="me.bestsamcn.blog.models.Admin" >
+    insert into t_admin (id, account, password, 
+      avatar, email, mobile, 
+      create_time, create_ip, last_login_time, 
+      user_type, set_admin_time, last_update_time
+      )
+    values (#{id,jdbcType=CHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP},
+      #{userType,jdbcType=CHAR}, #{setAdminTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="me.bestsamcn.blog.models.Admin" >
+    insert into t_admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createIp != null" >
+        create_ip,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="setAdminTime != null" >
+        set_admin_time,
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createIp != null" >
+        #{createIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=CHAR},
+      </if>
+      <if test="setAdminTime != null" >
+        #{setAdminTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="me.bestsamcn.blog.models.Admin" >
+    update t_admin
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createIp != null" >
+        create_ip = #{createIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=CHAR},
+      </if>
+      <if test="setAdminTime != null" >
+        set_admin_time = #{setAdminTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="me.bestsamcn.blog.models.Admin" >
+    update t_admin
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      user_type = #{userType,jdbcType=CHAR},
+      set_admin_time = #{setAdminTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=CHAR}
+  </update>
 </mapper>

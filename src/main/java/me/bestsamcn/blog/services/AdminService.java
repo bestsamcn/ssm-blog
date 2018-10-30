@@ -4,8 +4,8 @@ import me.bestsamcn.blog.models.Admin;
 
 /**
  * @Author: Sam
- * @Date: 2018/10/26 0:40int
+ * @Date: 2018/10/30 20:56
  */
 public interface AdminService {
-    public Admin findUserById(int id);
+    public Admin getAdminById(String id);
 }
