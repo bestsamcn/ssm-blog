@@ -1,7 +1,10 @@
 package me.bestsamcn.blog.dao;
 
 import me.bestsamcn.blog.models.Admin;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface AdminMapper {
@@ -16,4 +19,6 @@ public interface AdminMapper {
     int updateByPrimaryKeySelective(Admin record);
 
     int updateByPrimaryKey(Admin record);
+
+    List<Admin> selectAll(@Param("orderName") String orderName);
 }

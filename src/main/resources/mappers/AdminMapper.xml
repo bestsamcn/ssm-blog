@@ -28,6 +28,12 @@
     from t_admin admin
     where admin.id = #{id,jdbcType=CHAR}
   </select>
+  <select id="selectAll" resultType="me.bestsamcn.blog.models.Admin">
+    select * from t_admin
+    <if test="orderName != null">
+        order by ${orderName} desc
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_admin
     where id = #{id,jdbcType=CHAR}

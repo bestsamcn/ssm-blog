@@ -30,4 +30,12 @@ public interface AdminService {
      * @return
      */
     public Response delete(String id);
+
+    /**
+     * 分页
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    public Response getList(int pageIndex, int pageSize);
 }

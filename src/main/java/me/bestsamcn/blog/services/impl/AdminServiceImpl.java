@@ -1,5 +1,7 @@
 package me.bestsamcn.blog.services.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import me.bestsamcn.blog.dao.AdminMapper;
 import me.bestsamcn.blog.models.Admin;
 import me.bestsamcn.blog.services.AdminService;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: Sam
@@ -66,6 +69,22 @@ public class AdminServiceImpl implements AdminService {
         }catch (Exception e){
             return Response.error();
         }
+    }
+
+    @Override
+    public Response getList(int pageIndex, int pageSize){
+        if(pageIndex < 0 || pageSize < 0){
+            return Response.error("分页参数不正确");
+        }
+        try{
+            PageHelper.startPage(pageIndex, pageSize);
+            List<Admin> adminList = adminMapper.selectAll("last_update_time");
+            PageInfo<Admin> pageInfo = new PageInfo(adminList, pageSize);
+            return Response.build(pageInfo);
+        }catch(Exception e){
+            return Response.error();
+        }
+
     }
 
     @Override

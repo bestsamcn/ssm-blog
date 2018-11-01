@@ -40,6 +40,15 @@ public class AdminController {
         Response res = adminService.delete(id);
         return res;
     }
+
+    @GetMapping(name="分页", value="getList")
+    @ResponseBody
+    public Response getList(@RequestParam("pageIndex") int pageIndex,
+                            @RequestParam(name="pageSize", required = false, defaultValue = "10") int pageSize){
+        Response res = adminService.getList(pageIndex,pageSize);
+        return res;
+    }
+
     @GetMapping(name="静态", value="/")
     public String index(){
         return "/test";
