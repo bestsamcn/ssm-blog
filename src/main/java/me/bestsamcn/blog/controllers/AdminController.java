@@ -34,6 +34,12 @@ public class AdminController {
         return res;
     }
 
+    @PostMapping(name="删除", value="delete")
+    @ResponseBody
+    public Response delete(@RequestParam("id") String id){
+        Response res = adminService.delete(id);
+        return res;
+    }
     @GetMapping(name="静态", value="/")
     public String index(){
         return "/test";

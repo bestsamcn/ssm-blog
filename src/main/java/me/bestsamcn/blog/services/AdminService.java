@@ -23,4 +23,11 @@ public interface AdminService {
      * @return
      */
     public Response add(String account, String password);
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    public Response delete(String id);
 }

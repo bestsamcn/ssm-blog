@@ -16,7 +16,7 @@ import java.util.Date;
  * @Date: 2018/10/30 20:57
  */
 
-@Service
+@Service("adminService")
 public class AdminServiceImpl implements AdminService {
 
 
@@ -48,6 +48,22 @@ public class AdminServiceImpl implements AdminService {
                 return Response.error("创建失败");
             }
         }catch(Exception e){
+            return Response.error();
+        }
+    }
+
+    @Override
+    public Response delete(String id){
+        if(id == null || id.trim().isEmpty() || id.trim().length() != 32){
+            return Response.error("无此记录");
+        }
+        try {
+            int row = adminMapper.deleteByPrimaryKey(id);
+            if(row == 1){
+                return Response.success();
+            }
+            return Response.error("无此记录");
+        }catch (Exception e){
             return Response.error();
         }
     }
