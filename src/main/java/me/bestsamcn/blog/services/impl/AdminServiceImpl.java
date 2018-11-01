@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Sam
@@ -80,11 +82,15 @@ public class AdminServiceImpl implements AdminService {
             PageHelper.startPage(pageIndex, pageSize);
             List<Admin> adminList = adminMapper.selectAll("last_update_time");
             PageInfo<Admin> pageInfo = new PageInfo(adminList, pageSize);
-            return Response.build(pageInfo);
+            Map<String, Object>  map= new HashMap();
+            map.put("list", pageInfo.getList());
+            map.put("total", pageInfo.getTotal());
+            map.put("pageIndex", pageInfo.getPageNum());
+            map.put("pageSize", pageInfo.getPageSize());
+            return Response.build(map);
         }catch(Exception e){
             return Response.error();
         }
-
     }
 
     @Override
