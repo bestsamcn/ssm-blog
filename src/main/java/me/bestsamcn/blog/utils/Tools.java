@@ -2,6 +2,7 @@ package me.bestsamcn.blog.utils;
 
 import java.security.MessageDigest;
 import java.util.UUID;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -72,5 +73,19 @@ public class Tools {
     public static String generatePassword(String password) {
         String method = "SHA1";
         return Tools.generatePassword(password, method);
+    }
+
+    /**
+     * 正则判断
+     * @param reg
+     * @param str
+     * @return
+     */
+    public static boolean isMatch(String reg, String str){
+        if(reg == null || reg.isEmpty()) return false;
+        if(str == null || str.isEmpty()) return false;
+        Pattern pattern = Pattern.compile(reg);
+        Matcher matcher = pattern.matcher(str);
+        return matcher.matches();
     }
 }

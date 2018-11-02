@@ -38,4 +38,15 @@ public interface AdminService {
      * @return
      */
     public Response getList(int pageIndex, int pageSize);
+
+    /**
+     * 修改
+     * @param id
+     * @param account
+     * @param email
+     * @param mobile
+     * @param avatar
+     * @return
+     */
+    public Response edit(String id, String account, String email, String mobile, String avatar);
 }

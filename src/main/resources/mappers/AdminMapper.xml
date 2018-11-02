@@ -28,8 +28,8 @@
     from t_admin admin
     where admin.id = #{id,jdbcType=CHAR}
   </select>
-  <select id="selectAll" resultType="me.bestsamcn.blog.models.Admin">
-    select * from t_admin
+  <select id="selectAll" resultType="me.bestsamcn.blog.models.AdminVo">
+    select  * from t_admin
     <if test="orderName != null">
         order by ${orderName} desc
     </if>

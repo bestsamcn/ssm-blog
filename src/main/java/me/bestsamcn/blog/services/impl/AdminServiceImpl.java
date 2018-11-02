@@ -2,8 +2,10 @@ package me.bestsamcn.blog.services.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import me.bestsamcn.blog.dao.AdminMapper;
 import me.bestsamcn.blog.models.Admin;
+import me.bestsamcn.blog.models.AdminVo;
 import me.bestsamcn.blog.services.AdminService;
 import me.bestsamcn.blog.utils.Response;
 import me.bestsamcn.blog.utils.Tools;
@@ -23,8 +25,6 @@ import java.util.Map;
 
 @Service("adminService")
 public class AdminServiceImpl implements AdminService {
-
-
 
     @Autowired
     AdminMapper adminMapper;
@@ -81,13 +81,50 @@ public class AdminServiceImpl implements AdminService {
         try{
             PageHelper.startPage(pageIndex, pageSize);
             List<Admin> adminList = adminMapper.selectAll("last_update_time");
-            PageInfo<Admin> pageInfo = new PageInfo(adminList, pageSize);
+            PageInfo<AdminVo> pageInfo = new PageInfo(adminList, pageSize);
             Map<String, Object>  map= new HashMap();
             map.put("list", pageInfo.getList());
             map.put("total", pageInfo.getTotal());
             map.put("pageIndex", pageInfo.getPageNum());
             map.put("pageSize", pageInfo.getPageSize());
             return Response.build(map);
+        }catch(Exception e){
+            return Response.error();
+        }
+    }
+
+    @Override
+    public Response edit(String id, String account, String email, String mobile, String avatar){
+        if(id == null || id.trim().isEmpty() || id.trim().length() !=32){
+            return Response.error("无此记录");
+        }
+        if(account == null || account.trim().isEmpty()){
+            return Response.error("用户不能为空");
+        }
+        if(email != null && !Tools.isMatch("[_\\w]+@\\w+\\.\\w+", email)){
+            return Response.error("邮箱格式错误");
+        }
+        if(mobile != null  && !Tools.isMatch("1[3-8]\\d{9}", mobile)){
+            return Response.error("手机号码格式错误");
+        }
+
+        try{
+            Admin admin = adminMapper.selectByPrimaryKey(id);
+            if(admin == null){
+                return Response.error("无此记录");
+            }
+
+            admin.setAccount(account);
+            admin.setEmail(email);
+            admin.setMobile(mobile);
+            admin.setAvatar(avatar);
+
+            int row = adminMapper.updateByPrimaryKey(admin);
+            if(row == 1){
+                return Response.success("编辑成功");
+            }
+            return Response.error("编辑失败");
+
         }catch(Exception e){
             return Response.error();
         }

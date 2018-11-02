@@ -1,8 +1,11 @@
 package me.bestsamcn.blog.models;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import java.util.Date;
 
-
+@Repository
 public class Admin {
     private String id;
 

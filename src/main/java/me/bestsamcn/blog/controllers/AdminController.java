@@ -49,6 +49,13 @@ public class AdminController {
         return res;
     }
 
+    @PostMapping(name="编辑", value="edit")
+    @ResponseBody
+    public Response edit(@RequestParam("id") String id, @RequestParam("account") String account, @RequestParam("email") String email, @RequestParam("mobile") String mobile, @RequestParam("avatar") String avatar){
+        Response res = adminService.edit(id, account, email, mobile, avatar);
+        return res;
+    }
+
     @GetMapping(name="静态", value="/")
     public String index(){
         return "/test";
