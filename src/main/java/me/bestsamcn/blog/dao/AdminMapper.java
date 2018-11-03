@@ -21,4 +21,6 @@ public interface AdminMapper {
     int updateByPrimaryKey(Admin record);
 
     List<Admin> selectAll(@Param("orderName") String orderName);
+
+    Admin selectOneByAccount(@Param("account") String account);
 }

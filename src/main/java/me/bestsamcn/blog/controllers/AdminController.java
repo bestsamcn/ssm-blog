@@ -56,6 +56,22 @@ public class AdminController {
         return res;
     }
 
+    @PostMapping(name="登陆", value="login")
+    @ResponseBody
+    public Response login(@RequestParam("account") String account, @RequestParam("password") String password){
+        Response res = adminService.login(account, password);
+        return res;
+    }
+
+    @PostMapping(name="登陆", value="editPassword")
+    @ResponseBody
+    public Response editPassword(@RequestParam("id") String id, @RequestParam("password") String password, @RequestParam("rePassword") String rePassword){
+        Response res = adminService.editPassword(id, password, rePassword);
+        return res;
+    }
+
+
+
     @GetMapping(name="静态", value="/")
     public String index(){
         return "/test";

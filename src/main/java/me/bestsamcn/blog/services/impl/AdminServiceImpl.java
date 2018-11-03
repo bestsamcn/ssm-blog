@@ -2,6 +2,7 @@ package me.bestsamcn.blog.services.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.sun.xml.internal.bind.v2.model.core.ID;
 import me.bestsamcn.blog.dao.AdminMapper;
 import me.bestsamcn.blog.models.Admin;
@@ -9,6 +10,7 @@ import me.bestsamcn.blog.models.AdminVo;
 import me.bestsamcn.blog.services.AdminService;
 import me.bestsamcn.blog.utils.Response;
 import me.bestsamcn.blog.utils.Tools;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,16 @@ public class AdminServiceImpl implements AdminService {
         if(account.trim().length() < 3 || account.trim().length() > 26){
             return Response.error("用户名长度不能小于3或者大于26");
         }
+
+        if(password == null || password.trim().isEmpty()){
+            return Response.error("密码不能为空");
+        }
+
+        if(password.trim().length() < 6 || password.trim().length() > 26){
+            return Response.error("密码长度不能小于3或者大于26");
+        }
+
+
 
         Admin admin = new Admin();
         admin.setId(Tools.getUUID());
@@ -133,5 +145,73 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin getById(String id) {
         return adminMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public Response login(String account, String password){
+        if(account == null || account.trim().isEmpty()){
+            return Response.error("用户名不能为空");
+        }
+
+        if(account.trim().length() < 3 || account.trim().length() > 26){
+            return Response.error("用户名长度不能小于3或者大于26");
+        }
+
+        if(password == null || password.trim().isEmpty()){
+            return Response.error("密码不能为空");
+        }
+
+        if(password.trim().length() < 6 || password.trim().length() > 26){
+            return Response.error("密码长度不能小于3或者大于26");
+        }
+
+        try {
+            Admin admin = adminMapper.selectOneByAccount(account);
+            if(admin == null){
+                return Response.error("用户名不存在");
+            }
+            if(!admin.getPassword().equals(Tools.generatePassword(password))){
+                return Response.error("密码错误");
+            }
+            return Response.success("登陆成功");
+        }catch(Exception e){
+            return Response.error();
+        }
+    }
+
+    @Override
+    public Response editPassword(String id, String password, String rePassword){
+        if(id == null || id.trim().isEmpty() || id.trim().length() != 32){
+            return Response.error("无此数据");
+        }
+        if(password == null || password.trim().isEmpty()){
+            return Response.error("密码不能为空");
+        }
+        if(password.trim().length() < 6 || password.trim().length() > 26){
+            return Response.error("密码长度不能小于6或者大于26");
+        }
+        if(rePassword == null || rePassword.trim().isEmpty()){
+            return Response.error("确认密码不能为空");
+        }
+
+        if(!password.trim().equals(rePassword.trim())){
+            return Response.error("密码不一致");
+        }
+
+        try {
+            Admin admin  = adminMapper.selectByPrimaryKey(id);
+            if(admin == null){
+                return Response.error("无此数据");
+            }
+            String _password = Tools.generatePassword(password);
+            admin.setPassword(_password);
+            int row = adminMapper.updateByPrimaryKey(admin);
+            if(row == 0){
+                return Response.error();
+            }
+            return Response.success("密码修改成功");
+        }catch (Exception e){
+            return Response.error();
+        }
     }
 }

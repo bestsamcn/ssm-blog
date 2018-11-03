@@ -49,4 +49,21 @@ public interface AdminService {
      * @return
      */
     public Response edit(String id, String account, String email, String mobile, String avatar);
+
+    /**
+     * 登陆
+     * @param account
+     * @param password
+     * @return
+     */
+    public Response login(String account, String password);
+
+    /**
+     * 修改密码
+     * @param id
+     * @param password
+     * @param rePassword
+     * @return
+     */
+    public Response editPassword(String id, String password, String rePassword);
 }

@@ -34,6 +34,9 @@
         order by ${orderName} desc
     </if>
   </select>
+  <select id="selectOneByAccount" resultType="me.bestsamcn.blog.models.Admin" parameterType="java.lang.String" >
+    select * from t_admin where account=#{account, jdbcType=CHAR} limit 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_admin
     where id = #{id,jdbcType=CHAR}
