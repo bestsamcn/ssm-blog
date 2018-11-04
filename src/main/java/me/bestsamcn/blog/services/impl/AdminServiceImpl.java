@@ -16,6 +16,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
@@ -71,6 +73,19 @@ public class AdminServiceImpl implements AdminService {
         }catch(Exception e){
             return Response.error();
         }
+    }
+
+    @Override
+    public Response logout(String JSESSIONID, HttpSession httpSession, HttpServletRequest req, HttpServletResponse resp){
+        if(JSESSIONID == null || JSESSIONID.trim().isEmpty()){
+            return Response.error("未登录就想退出?");
+        }
+        if(!this.isLogin(JSESSIONID)){
+            return Response.error("未登录就想退出?");
+        }
+        Session.delete(JSESSIONID);
+        Tools.delCookie("JSESSIONID", req, resp);
+        return Response.success("已退出登陆");
     }
 
     @Override
@@ -147,8 +162,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin getById(String id) {
-        return adminMapper.selectByPrimaryKey(id);
+    public Response getById(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            return Response.error("无此数据");
+        }
+        try{
+            Admin admin = adminMapper.selectByPrimaryKey(id);
+            if(admin == null){
+                return Response.error("无此数据");
+            }
+            return Response.build(admin);
+        }catch (Exception e){
+            return Response.error();
+        }
     }
 
     @Override

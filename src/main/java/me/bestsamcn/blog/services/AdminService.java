@@ -3,6 +3,7 @@ package me.bestsamcn.blog.services;
 import me.bestsamcn.blog.models.Admin;
 import me.bestsamcn.blog.utils.Response;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +18,7 @@ public interface AdminService {
      * @param id
      * @return
      */
-    public Admin getById(String id);
+    public Response getById(String id);
 
     /**
      * 新增
@@ -83,5 +84,11 @@ public interface AdminService {
      * @param JSESSIONID
      */
     public Response getInfo(String JSESSIONID);
+
+    /**
+     * 退出
+     * @return
+     */
+    public Response logout(String JESSIONID, HttpSession session, HttpServletRequest req, HttpServletResponse resp);
 
 }

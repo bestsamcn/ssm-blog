@@ -1,5 +1,6 @@
 package me.bestsamcn.blog.controllers;
 
+import me.bestsamcn.blog.annotations.LoginRequired;
 import me.bestsamcn.blog.models.Admin;
 import me.bestsamcn.blog.services.AdminService;
 import me.bestsamcn.blog.utils.Response;
@@ -26,9 +27,10 @@ public class AdminController {
 
     @GetMapping(name="根据用户id获取用户", value="getById")
     @ResponseBody
-    public Admin getAdminById(@RequestParam("id") String id){
-        Admin admin = adminService.getById(id);
-        return admin;
+    @LoginRequired
+    public Response getAdminById(@RequestParam("id") String id){
+        Response res = adminService.getById(id);
+        return res;
     }
 
     @PostMapping(name="创建管理员", value="add")
@@ -40,6 +42,7 @@ public class AdminController {
 
     @PostMapping(name="删除", value="delete")
     @ResponseBody
+    @LoginRequired
     public Response delete(@RequestParam("id") String id){
         Response res = adminService.delete(id);
         return res;
@@ -47,6 +50,7 @@ public class AdminController {
 
     @GetMapping(name="分页", value="getList")
     @ResponseBody
+    @LoginRequired
     public Response getList(
             @RequestParam("pageIndex") int pageIndex,
             @RequestParam(name="pageSize", required = false, defaultValue = "10") int pageSize){
@@ -56,6 +60,7 @@ public class AdminController {
 
     @PostMapping(name="编辑", value="edit")
     @ResponseBody
+    @LoginRequired
     public Response edit(
             @RequestParam("id") String id,
             @RequestParam("account") String account,
@@ -69,7 +74,7 @@ public class AdminController {
     @PostMapping(name="登陆", value="login")
     @ResponseBody
     public Response login(
-            @CookieValue("JSESSIONID") String JSESSIONID,
+            @CookieValue(value="JSESSIONID", required = false) String JSESSIONID,
             @RequestParam("account") String account,
             @RequestParam("password") String password,
             HttpSession session,
@@ -78,8 +83,17 @@ public class AdminController {
         return res;
     }
 
+    @RequestMapping(name="退出登陆", value = "logout")
+    @ResponseBody
+    @LoginRequired
+    public Response logout(@CookieValue("JSESSIONID") String JSESSIONID, HttpSession httpSession, HttpServletRequest req, HttpServletResponse resp){
+        Response res = adminService.logout(JSESSIONID, httpSession, req, resp);
+        return res;
+    }
+
     @PostMapping(name="修改密码", value="editPassword")
     @ResponseBody
+    @LoginRequired
     public Response editPassword(
             @RequestParam("id") String id,
             @RequestParam("password") String password,
@@ -90,6 +104,7 @@ public class AdminController {
 
     @GetMapping(name="获取当前用户信息", value="getInfo")
     @ResponseBody
+    @LoginRequired
     public Response getInfo(@CookieValue("JSESSIONID") String JSESSIONID){
         Response res = adminService.getInfo(JSESSIONID);
         return res;
