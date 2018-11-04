@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 /**
  * @Author: Sam
  * @Date: 2018/10/30 20:53
@@ -43,34 +47,53 @@ public class AdminController {
 
     @GetMapping(name="分页", value="getList")
     @ResponseBody
-    public Response getList(@RequestParam("pageIndex") int pageIndex,
-                            @RequestParam(name="pageSize", required = false, defaultValue = "10") int pageSize){
+    public Response getList(
+            @RequestParam("pageIndex") int pageIndex,
+            @RequestParam(name="pageSize", required = false, defaultValue = "10") int pageSize){
         Response res = adminService.getList(pageIndex,pageSize);
         return res;
     }
 
     @PostMapping(name="编辑", value="edit")
     @ResponseBody
-    public Response edit(@RequestParam("id") String id, @RequestParam("account") String account, @RequestParam("email") String email, @RequestParam("mobile") String mobile, @RequestParam("avatar") String avatar){
+    public Response edit(
+            @RequestParam("id") String id,
+            @RequestParam("account") String account,
+            @RequestParam("email") String email,
+            @RequestParam("mobile") String mobile,
+            @RequestParam("avatar") String avatar){
         Response res = adminService.edit(id, account, email, mobile, avatar);
         return res;
     }
 
     @PostMapping(name="登陆", value="login")
     @ResponseBody
-    public Response login(@RequestParam("account") String account, @RequestParam("password") String password){
-        Response res = adminService.login(account, password);
+    public Response login(
+            @CookieValue("JSESSIONID") String JSESSIONID,
+            @RequestParam("account") String account,
+            @RequestParam("password") String password,
+            HttpSession session,
+            HttpServletResponse resp){
+        Response res = adminService.login(account, password, JSESSIONID, session, resp);
         return res;
     }
 
-    @PostMapping(name="登陆", value="editPassword")
+    @PostMapping(name="修改密码", value="editPassword")
     @ResponseBody
-    public Response editPassword(@RequestParam("id") String id, @RequestParam("password") String password, @RequestParam("rePassword") String rePassword){
+    public Response editPassword(
+            @RequestParam("id") String id,
+            @RequestParam("password") String password,
+            @RequestParam("rePassword") String rePassword){
         Response res = adminService.editPassword(id, password, rePassword);
         return res;
     }
 
-
+    @GetMapping(name="获取当前用户信息", value="getInfo")
+    @ResponseBody
+    public Response getInfo(@CookieValue("JSESSIONID") String JSESSIONID){
+        Response res = adminService.getInfo(JSESSIONID);
+        return res;
+    }
 
     @GetMapping(name="静态", value="/")
     public String index(){

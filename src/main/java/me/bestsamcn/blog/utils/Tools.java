@@ -1,5 +1,8 @@
 package me.bestsamcn.blog.utils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.MessageDigest;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -87,5 +90,39 @@ public class Tools {
         Pattern pattern = Pattern.compile(reg);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
+    }
+
+    /**
+     * 设置cookie
+     * @param name
+     * @param value
+     * @param days
+     * @param res
+     */
+    public static void setCookie(String name, String value, int days, boolean isHttpOnly, HttpServletResponse res){
+        Cookie cookie = new Cookie(name, value);
+        cookie.setPath("/");
+        cookie.setMaxAge(days * 3600);
+        cookie.setHttpOnly(isHttpOnly);
+        res.addCookie(cookie);
+    }
+
+    /**
+     * 删除cookie
+     * @param name
+     * @param req
+     * @param res
+     */
+    public static void delCookie(String name, HttpServletRequest req, HttpServletResponse res){
+        Cookie[] cookies = req.getCookies();
+        if(cookies == null) return;
+        for(Cookie cookie:cookies){
+            if(cookie.getName().equals(name)){
+                cookie.setMaxAge(0);
+                cookie.setPath("/");
+                res.addCookie(cookie);
+                break;
+            }
+        }
     }
 }

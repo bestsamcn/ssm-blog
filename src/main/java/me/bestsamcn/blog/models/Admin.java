@@ -1,12 +1,11 @@
 package me.bestsamcn.blog.models;
 
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 
-@Repository
-public class Admin {
+@JsonIgnoreProperties(value={"password"})
+public class Admin{
     private String id;
 
     private String account;

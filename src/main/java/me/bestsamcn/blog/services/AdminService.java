@@ -3,6 +3,9 @@ package me.bestsamcn.blog.services;
 import me.bestsamcn.blog.models.Admin;
 import me.bestsamcn.blog.utils.Response;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 /**
  * @Author: Sam
  * @Date: 2018/10/30 20:56
@@ -56,7 +59,7 @@ public interface AdminService {
      * @param password
      * @return
      */
-    public Response login(String account, String password);
+    public Response login(String account, String password, String JSESSIONID, HttpSession session, HttpServletResponse resp);
 
     /**
      * 修改密码
@@ -66,4 +69,19 @@ public interface AdminService {
      * @return
      */
     public Response editPassword(String id, String password, String rePassword);
+
+    /**
+     * 保存用户状态
+     * @param admin
+     * @param session
+     * @param res
+     */
+    public void setLoginState(Admin admin, HttpSession session, HttpServletResponse res);
+
+    /**
+     * 通过cookie获取当前用户
+     * @param JSESSIONID
+     */
+    public Response getInfo(String JSESSIONID);
+
 }

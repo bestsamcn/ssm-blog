@@ -1,10 +1,7 @@
 package me.bestsamcn.blog.models;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.Date;
 
-@Repository
 public class AdminVo {
     private String id;
 

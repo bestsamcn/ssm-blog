@@ -2,6 +2,7 @@ package me.bestsamcn.blog.services.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.deploy.net.HttpResponse;
 import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.sun.xml.internal.bind.v2.model.core.ID;
 import me.bestsamcn.blog.dao.AdminMapper;
@@ -9,11 +10,14 @@ import me.bestsamcn.blog.models.Admin;
 import me.bestsamcn.blog.models.AdminVo;
 import me.bestsamcn.blog.services.AdminService;
 import me.bestsamcn.blog.utils.Response;
+import me.bestsamcn.blog.utils.Session;
 import me.bestsamcn.blog.utils.Tools;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -148,7 +152,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Response login(String account, String password){
+    public Response login(String account, String password, String JSESSIONID, HttpSession session, HttpServletResponse resp){
+        if(this.isLogin(JSESSIONID)){
+            return Response.error("你已登陆");
+        }
         if(account == null || account.trim().isEmpty()){
             return Response.error("用户名不能为空");
         }
@@ -173,10 +180,42 @@ public class AdminServiceImpl implements AdminService {
             if(!admin.getPassword().equals(Tools.generatePassword(password))){
                 return Response.error("密码错误");
             }
+            this.setLoginState(admin, session, resp);
             return Response.success("登陆成功");
         }catch(Exception e){
             return Response.error();
         }
+    }
+
+    @Override
+    public void setLoginState(Admin admin, HttpSession session, HttpServletResponse res){
+        String jsessionid = session.getId();
+        session.setAttribute(jsessionid, admin);
+        Tools.setCookie("JSESSIONID", jsessionid, 1, true, res);
+    }
+
+    /**
+     * 当前请求是否已经登陆
+     * @param JSESSIONID
+     * @return
+     */
+    private boolean isLogin(String JSESSIONID){
+        if(JSESSIONID == null || JSESSIONID.trim().isEmpty()){
+            return false;
+        }
+        HttpSession session = Session.get(JSESSIONID);
+        if(session == null || session.getAttribute(JSESSIONID) ==null){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Response getInfo(String JSESSIONID){
+        if(!this.isLogin(JSESSIONID)) return Response.error("请先登陆");
+        HttpSession session = Session.get(JSESSIONID);
+        Admin admin = (Admin) session.getAttribute(JSESSIONID);
+        return Response.build(admin);
     }
 
     @Override
