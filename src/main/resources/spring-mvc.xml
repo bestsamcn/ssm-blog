@@ -20,6 +20,7 @@
     <!--综合配置简化-->
     <mvc:annotation-driven/>
 
+    <!--拦截器-->
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**" />

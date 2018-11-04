@@ -6,7 +6,6 @@ import me.bestsamcn.blog.utils.Session;
 import me.bestsamcn.blog.utils.Tools;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import sun.rmi.runtime.Log;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
