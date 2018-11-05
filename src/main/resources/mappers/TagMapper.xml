@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.bestsamcn.blog.dao.TagMapper" >
+  <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.Tag" >
+    <id column="tag_id" property="id" jdbcType="CHAR" />
+    <result column="tag_name" property="name" jdbcType="VARCHAR" />
+    <result column="tag_click_num" property="clickNum" jdbcType="INTEGER" />
+    <result column="tag_create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tag.id as tag_id, tag.name as tag_name, tag.click_num as tag_click_num, tag.create_time as tag_create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_tag tag
+    where tag.id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_tag
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="me.bestsamcn.blog.models.Tag" >
+    insert into t_tag (id, name, click_num, 
+      create_time)
+    values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{clickNum,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="me.bestsamcn.blog.models.Tag" >
+    insert into t_tag
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="clickNum != null" >
+        click_num,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="clickNum != null" >
+        #{clickNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="me.bestsamcn.blog.models.Tag" >
+    update t_tag
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="clickNum != null" >
+        click_num = #{clickNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="me.bestsamcn.blog.models.Tag" >
+    update t_tag
+    set name = #{name,jdbcType=VARCHAR},
+      click_num = #{clickNum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>
