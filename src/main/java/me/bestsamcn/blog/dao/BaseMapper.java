@@ -29,6 +29,8 @@ public interface BaseMapper<T> {
      */
     T selectByPrimaryKey(String id);
 
+
+
     /**
      * 更新
      * @param record

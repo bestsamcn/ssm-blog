@@ -6,6 +6,8 @@ import me.bestsamcn.blog.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Author: Sam
  * @Date: 2018/11/6 23:25
@@ -20,11 +22,12 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
         return tagMapper;
     }
 
-    public int add(Tag tag){
-        return tagMapper.insert(tag);
+    @Override
+    public Tag getByName(String name){
+        return tagMapper.selectByName(name);
     }
-
-    public int edit(Tag tag){
-        return 0;
+    @Override
+    public List<Tag> getList(){
+        return tagMapper.selectAll();
     }
 }

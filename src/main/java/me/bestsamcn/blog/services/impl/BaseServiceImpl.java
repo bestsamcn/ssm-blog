@@ -20,7 +20,9 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         return getMapper().deleteByPrimaryKey(id);
     }
 
-    public abstract int edit(T model);
+    public  int edit(T model){
+        return getMapper().updateByPrimaryKey(model);
+    }
 
     public T getById(String id){
         return getMapper().selectByPrimaryKey(id);
