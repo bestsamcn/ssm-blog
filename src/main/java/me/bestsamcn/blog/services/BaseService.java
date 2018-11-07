@@ -1,5 +1,7 @@
 package me.bestsamcn.blog.services;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 /**

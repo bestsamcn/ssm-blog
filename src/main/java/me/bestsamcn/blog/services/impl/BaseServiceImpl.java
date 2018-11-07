@@ -2,6 +2,7 @@ package me.bestsamcn.blog.services.impl;
 
 import me.bestsamcn.blog.dao.BaseMapper;
 import me.bestsamcn.blog.services.BaseService;
+import org.springframework.stereotype.Repository;
 
 /**
  * @Author: Sam
@@ -11,7 +12,9 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
     protected abstract BaseMapper<T> getMapper();
 
-    public abstract int add(T model);
+    public int add(T model){
+        return getMapper().insert(model);
+    };
 
     public int delete(String id){
         return getMapper().deleteByPrimaryKey(id);
