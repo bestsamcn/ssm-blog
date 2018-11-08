@@ -55,6 +55,10 @@
         </tx:attributes>
     </tx:advice>
 
+    <!--注解事务-->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+
     <!-- 配置事务的切入点 -->
     <aop:config>
         <aop:pointcut expression="execution(* me.bestsamcn.blog.services.*.*(..))"

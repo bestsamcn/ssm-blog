@@ -3,7 +3,10 @@ package me.bestsamcn.blog.utils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -142,5 +145,22 @@ public class Tools {
             }
         }
         return null;
+    }
+
+    /**
+     * 获取指定配置固定属性
+     * @param propName
+     * @return
+     * @throws IOException
+     */
+    public static String getConfigProperty(String propName){
+        Properties props = new Properties();
+        InputStream in = Tools.class.getClassLoader().getResourceAsStream("config.properties");
+        try{
+            props.load(in);
+            return props.getProperty(propName);
+        }catch(Exception e){
+            return null;
+        }
     }
 }
