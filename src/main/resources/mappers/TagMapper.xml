@@ -23,7 +23,7 @@
     where tag.name = #{name,jdbcType=CHAR}
   </select>
   <select id="selectAll" resultType="me.bestsamcn.blog.models.Tag">
-    select * from t_tag tag
+    select * from t_tag tag order by create_time desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_tag

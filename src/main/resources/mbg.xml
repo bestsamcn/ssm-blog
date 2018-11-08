@@ -45,7 +45,7 @@
 
 
         <!--需要自动化的表信息-->
-        <table alias="tag" tableName="t_tag" domainObjectName="Tag"
+        <table alias="category" tableName="t_category" domainObjectName="Category"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
