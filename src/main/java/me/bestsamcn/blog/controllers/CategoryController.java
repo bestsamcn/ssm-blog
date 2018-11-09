@@ -40,7 +40,7 @@ public class CategoryController {
         category.setClickNum(0);
         category.setName(name);
         category.setCreateTime(new Timestamp(new Date().getTime()));
-        int row = categoryService.add(category);
+        int row = categoryService.insert(category);
         if(row == 1){
             return Response.success("添加成功");
         }
@@ -54,7 +54,7 @@ public class CategoryController {
         if(id == null || id.trim().isEmpty() || id.trim().length() !=32){
             return Response.error("无此数据");
         }
-        int row = categoryService.delete(id);
+        int row = categoryService.remove(id);
         if(row != 0){
             return Response.success("删除成功");
         }
@@ -67,7 +67,7 @@ public class CategoryController {
         if(id == null || id.trim().isEmpty() || id.trim().length() !=32){
             return Response.error("无此数据");
         }
-        Category category = categoryService.getById(id);
+        Category category = categoryService.selectById(id);
         if(category != null){
             return Response.build(category);
         }
@@ -94,12 +94,12 @@ public class CategoryController {
         if(categoryService.getByName(name) != null){
             return Response.error("标签名已存在");
         }
-        Category category = categoryService.getById(id);
+        Category category = categoryService.selectById(id);
         if(category == null){
             return Response.error("无此数据");
         }
         category.setName(name);
-        int row = categoryService.edit(category);
+        int row = categoryService.update(category);
         if(row == 0){
             return Response.error("编辑失败");
         }

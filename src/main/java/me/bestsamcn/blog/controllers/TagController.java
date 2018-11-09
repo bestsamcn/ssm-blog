@@ -40,7 +40,7 @@ public class TagController {
         tag.setClickNum(0);
         tag.setName(name);
         tag.setCreateTime(new Timestamp(new Date().getTime()));
-        int row = tagService.add(tag);
+        int row = tagService.insert(tag);
         if(row == 1){
             return Response.success("添加成功");
         }
@@ -54,7 +54,7 @@ public class TagController {
         if(id == null || id.trim().isEmpty() || id.trim().length() !=32){
             return Response.error("无此数据");
         }
-        int row = tagService.delete(id);
+        int row = tagService.remove(id);
         if(row != 0){
             return Response.success("删除成功");
         }
@@ -67,7 +67,7 @@ public class TagController {
         if(id == null || id.trim().isEmpty() || id.trim().length() !=32){
             return Response.error("无此数据");
         }
-        Tag tag = tagService.getById(id);
+        Tag tag = tagService.selectById(id);
         if(tag != null){
             return Response.build(tag);
         }
@@ -94,12 +94,12 @@ public class TagController {
         if(tagService.getByName(name) != null){
             return Response.error("标签名已存在");
         }
-        Tag tag = tagService.getById(id);
+        Tag tag = tagService.selectById(id);
         if(tag == null){
             return Response.error("无此数据");
         }
         tag.setName(name);
-        int row = tagService.edit(tag);
+        int row = tagService.update(tag);
         if(row == 0){
             return Response.error("编辑失败");
         }

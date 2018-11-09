@@ -1,9 +1,5 @@
 package me.bestsamcn.blog.services;
 
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
 /**
  * @Author: Sam
  * @Date: 2018/11/6 22:34
@@ -14,26 +10,26 @@ public interface BaseService<T> {
      * @param id
      * @return
      */
-    public T getById(String id);
+    public T selectById(String id);
 
     /**
      * 新增
      * @param model
      * @return
      */
-    public int add(T model);
+    public int insert(T model);
 
     /**
      * 删除
      * @param id
      * @return
      */
-    public int delete(String id);
+    public int remove(String id);
 
     /**
      * 修改
      * @param model
      * @return
      */
-    public int edit(T model);
+    public int update(T model);
 }
