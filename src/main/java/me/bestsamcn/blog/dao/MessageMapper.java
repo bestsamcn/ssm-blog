@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface MessageMapper extends BaseMapper<Message>{
 
-    List<Message> selectAll(@Param("orderName") String orderName);
+    List<Message> selectAll(@Param("orderName") String orderName, @Param("keyword") String keyword, @Param("type") int type);
 }

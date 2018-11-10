@@ -1,6 +1,9 @@
 package me.bestsamcn.blog.services.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import me.bestsamcn.blog.dao.MessageMapper;
+import me.bestsamcn.blog.enums.MessageType;
 import me.bestsamcn.blog.models.Message;
 import me.bestsamcn.blog.services.MessageService;
 import me.bestsamcn.blog.utils.Response;
@@ -10,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Sam
@@ -26,8 +32,23 @@ public class MessageServiceImpl extends BaseServiceImpl<Message> implements Mess
     }
 
     @Override
-    public Response getList(int pageIndex, int pageSize, String type, String keyword) {
-        return null;
+    public Response getList(int pageIndex, int pageSize, int type, String keyword) {
+        if(pageIndex < 0 || pageSize < 0){
+            return Response.error("分页参数不正确");
+        }
+        try{
+            PageHelper.startPage(pageIndex, pageSize);
+            List<Message> list = getMapper().selectAll("post_time", keyword, MessageType.getEnum(type).getKey());
+            PageInfo<Message> pageInfo = new PageInfo(list, pageSize);
+            Map<String, Object> map= new HashMap();
+            map.put("list", pageInfo.getList());
+            map.put("total", pageInfo.getTotal());
+            map.put("pageIndex", pageInfo.getPageNum());
+            map.put("pageSize", pageInfo.getPageSize());
+            return Response.build(map);
+        }catch(Exception e){
+            return Response.error();
+        }
     }
 
     @Override
@@ -56,7 +77,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message> implements Mess
         message.setName(name);
         message.setEmail(email);
         message.setContent(content);
-        message.setIsRead(false);
+        message.setIsRead(10);
         message.setPostTime(new Timestamp(new Date().getTime()));
         try {
             int row = getMapper().insert(message);

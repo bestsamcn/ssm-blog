@@ -1,6 +1,7 @@
 package me.bestsamcn.blog.services;
 
 import me.bestsamcn.blog.models.Hot;
+import me.bestsamcn.blog.utils.Response;
 
 import java.util.List;
 
@@ -22,4 +23,26 @@ public interface HotService extends BaseService<Hot>{
      * @return
      */
     public List<Hot> getList();
+
+    /**
+     * 新增
+     * @param name
+     * @return
+     */
+    public Response add(String name);
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    public Response delete(String id);
+
+    /**
+     * 编辑
+     * @param id
+     * @param name
+     * @return
+     */
+    public Response edit(String id, String name);
 }

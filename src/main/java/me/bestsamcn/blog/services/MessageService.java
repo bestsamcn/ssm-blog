@@ -2,9 +2,6 @@ package me.bestsamcn.blog.services;
 
 import me.bestsamcn.blog.models.Message;
 import me.bestsamcn.blog.utils.Response;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @Author: Sam
@@ -30,5 +27,5 @@ public interface MessageService extends BaseService<Message>{
      * @param keyword
      * @return
      */
-    public Response getList(int pageIndex, int pageSize, String type, String keyword);
+    public Response getList(int pageIndex, int pageSize, int type, String keyword);
 }

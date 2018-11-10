@@ -11,7 +11,7 @@ public class Message {
 
     private String content;
 
-    private Boolean isRead;
+    private Integer isRead;
 
     private Date readTime;
 
@@ -49,11 +49,11 @@ public class Message {
         this.content = content == null ? null : content.trim();
     }
 
-    public Boolean getIsRead() {
+    public Integer getIsRead() {
         return isRead;
     }
 
-    public void setIsRead(Boolean isRead) {
+    public void setIsRead(Integer isRead) {
         this.isRead = isRead;
     }
 

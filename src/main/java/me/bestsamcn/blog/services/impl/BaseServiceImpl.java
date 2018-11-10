@@ -12,19 +12,19 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
     protected abstract BaseMapper<T> getMapper();
 
-    public int add(T model){
+    public int insert(T model){
         return getMapper().insert(model);
-    };
+    }
 
-    public int delete(String id){
+    public int remove(String id){
         return getMapper().deleteByPrimaryKey(id);
     }
 
-    public  int edit(T model){
+    public int update (T model){
         return getMapper().updateByPrimaryKey(model);
     }
 
-    public T getById(String id){
+    public T selectById(String id){
         return getMapper().selectByPrimaryKey(id);
     }
 }

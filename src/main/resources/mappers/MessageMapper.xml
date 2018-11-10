@@ -1,123 +1,131 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="me.bestsamcn.blog.dao.MessageMapper">
-    <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.Message">
-        <id column="message_id" property="id" jdbcType="CHAR"/>
-        <result column="message_name" property="name" jdbcType="VARCHAR"/>
-        <result column="message_email" property="email" jdbcType="VARCHAR"/>
-        <result column="message_content" property="content" jdbcType="VARCHAR"/>
-        <result column="message_is_read" property="isRead" jdbcType="BIT"/>
-        <result column="message_read_time" property="readTime" jdbcType="TIMESTAMP"/>
-        <result column="message_post_time" property="postTime" jdbcType="TIMESTAMP"/>
-    </resultMap>
-    <sql id="Base_Column_List">
+<mapper namespace="me.bestsamcn.blog.dao.MessageMapper" >
+  <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.Message" >
+    <id column="message_id" property="id" jdbcType="CHAR" />
+    <result column="message_name" property="name" jdbcType="VARCHAR" />
+    <result column="message_email" property="email" jdbcType="VARCHAR" />
+    <result column="message_content" property="content" jdbcType="VARCHAR" />
+    <result column="message_is_read" property="isRead" jdbcType="INTEGER" />
+    <result column="message_read_time" property="readTime" jdbcType="TIMESTAMP" />
+    <result column="message_post_time" property="postTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
     message.id as message_id, message.name as message_name, message.email as message_email, 
     message.content as message_content, message.is_read as message_is_read, message.read_time as message_read_time, 
     message.post_time as message_post_time
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select
-        <include refid="Base_Column_List"/>
-        from t_message message
-        where message.id = #{id,jdbcType=CHAR}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_message message
+    where message.id = #{id,jdbcType=CHAR}
+  </select>
+  <select id="selectAll" resultType="me.bestsamcn.blog.models.Message">
+    select * from t_message
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="type != null">
+        AND is_read = ${type}
+      </if>
+      <if test="keyword != null and keyword !=''">
+        AND CONCAT(`name`, `content`, `email`) LIKE CONCAT('%',${keyword},'%')
+      </if>
+    </trim>
+    <if test="orderName != null">
+      order by ${orderName} desc
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_message
     where id = #{id,jdbcType=CHAR}
   </delete>
-    <select id="selectAll" resultType="me.bestsamcn.blog.models.Message">
-        select * from t_message
-        <if test="orderName != null">
-            order by ${orderName} desc
-        </if>
-    </select>
-    <insert id="insert" parameterType="me.bestsamcn.blog.models.Message">
+  <insert id="insert" parameterType="me.bestsamcn.blog.models.Message" >
     insert into t_message (id, name, email, 
       content, is_read, read_time, 
       post_time)
     values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{isRead,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=VARCHAR}, #{isRead,jdbcType=INTEGER}, #{readTime,jdbcType=TIMESTAMP}, 
       #{postTime,jdbcType=TIMESTAMP})
   </insert>
-    <insert id="insertSelective" parameterType="me.bestsamcn.blog.models.Message">
-        insert into t_message
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="name != null">
-                name,
-            </if>
-            <if test="email != null">
-                email,
-            </if>
-            <if test="content != null">
-                content,
-            </if>
-            <if test="isRead != null">
-                is_read,
-            </if>
-            <if test="readTime != null">
-                read_time,
-            </if>
-            <if test="postTime != null">
-                post_time,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=CHAR},
-            </if>
-            <if test="name != null">
-                #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="email != null">
-                #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="content != null">
-                #{content,jdbcType=VARCHAR},
-            </if>
-            <if test="isRead != null">
-                #{isRead,jdbcType=BIT},
-            </if>
-            <if test="readTime != null">
-                #{readTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="postTime != null">
-                #{postTime,jdbcType=TIMESTAMP},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="me.bestsamcn.blog.models.Message">
-        update t_message
-        <set>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="email != null">
-                email = #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="content != null">
-                content = #{content,jdbcType=VARCHAR},
-            </if>
-            <if test="isRead != null">
-                is_read = #{isRead,jdbcType=BIT},
-            </if>
-            <if test="readTime != null">
-                read_time = #{readTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="postTime != null">
-                post_time = #{postTime,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        where id = #{id,jdbcType=CHAR}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="me.bestsamcn.blog.models.Message">
+  <insert id="insertSelective" parameterType="me.bestsamcn.blog.models.Message" >
+    insert into t_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="isRead != null" >
+        is_read,
+      </if>
+      <if test="readTime != null" >
+        read_time,
+      </if>
+      <if test="postTime != null" >
+        post_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isRead != null" >
+        #{isRead,jdbcType=INTEGER},
+      </if>
+      <if test="readTime != null" >
+        #{readTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postTime != null" >
+        #{postTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="me.bestsamcn.blog.models.Message" >
+    update t_message
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isRead != null" >
+        is_read = #{isRead,jdbcType=INTEGER},
+      </if>
+      <if test="readTime != null" >
+        read_time = #{readTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postTime != null" >
+        post_time = #{postTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="me.bestsamcn.blog.models.Message" >
     update t_message
     set name = #{name,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      is_read = #{isRead,jdbcType=BIT},
+      is_read = #{isRead,jdbcType=INTEGER},
       read_time = #{readTime,jdbcType=TIMESTAMP},
       post_time = #{postTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=CHAR}
