@@ -22,7 +22,6 @@ public class XssFilter extends BaseFilter {
             return;
         }
         resp.setCharacterEncoding("UTF-8");
-        resp.setHeader("content-type", "application/json");
         HttpRequestFilter httpRequestFilter = new HttpRequestFilter(req);
         filterChain.doFilter(httpRequestFilter, resp);
     }
