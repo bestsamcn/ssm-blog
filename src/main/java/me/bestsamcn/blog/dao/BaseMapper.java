@@ -1,11 +1,12 @@
 package me.bestsamcn.blog.dao;
 
-import me.bestsamcn.blog.models.Tag;
+import org.springframework.stereotype.Repository;
 
 /**
  * @Author: Sam
  * @Date: 2018/11/6 22:58
  */
+@Repository
 public interface BaseMapper<T> {
 
     /**

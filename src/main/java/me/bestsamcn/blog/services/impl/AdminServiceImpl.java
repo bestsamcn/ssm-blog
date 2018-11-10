@@ -132,7 +132,7 @@ public class AdminServiceImpl implements AdminService {
         if(account == null || account.trim().isEmpty()){
             return Response.error("用户不能为空");
         }
-        if(email != null && !Tools.isMatch("[_\\w]+@\\w+\\.\\w+", email)){
+        if(email != null && !Tools.isMatch("[\\w]+@\\w+\\.\\w+", email)){
             return Response.error("邮箱格式错误");
         }
         if(mobile != null  && !Tools.isMatch("1[3-8]\\d{9}", mobile)){

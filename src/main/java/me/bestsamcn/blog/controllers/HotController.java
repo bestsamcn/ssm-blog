@@ -2,7 +2,6 @@ package me.bestsamcn.blog.controllers;
 
 import me.bestsamcn.blog.annotations.LoginRequired;
 import me.bestsamcn.blog.models.Hot;
-import me.bestsamcn.blog.models.Tag;
 import me.bestsamcn.blog.services.HotService;
 import me.bestsamcn.blog.utils.Response;
 import me.bestsamcn.blog.utils.Tools;
@@ -50,7 +49,7 @@ public class HotController {
         }
 
         Hot hot = new Hot();
-        hot.setId(Tools.getUUID());
+//        hot.setId(Tools.getUUID());
         hot.setHotCount(0);
         hot.setName(name);
         hot.setCreateTime(new Timestamp(new Date().getTime()));
