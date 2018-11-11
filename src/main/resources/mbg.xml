@@ -45,7 +45,7 @@
 
 
         <!--需要自动化的表信息-->
-        <table alias="message" tableName="t_message" domainObjectName="Message"
+        <table alias="notify" tableName="t_notify" domainObjectName="Notify"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

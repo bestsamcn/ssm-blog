@@ -73,6 +73,7 @@ public class MessageController {
 
     @GetMapping(name="获取相邻数据", value="getAdjoinById")
     @ResponseBody
+    @LoginRequired
     public Response getAdjoinById(@RequestParam("id") String id){
         if(id == null || id.trim().length() != 32){
             return Response.error("无此数据");

@@ -163,4 +163,26 @@ public class Tools {
             return null;
         }
     }
+
+    /**
+     * 校验字符串
+     * @param str
+     * @param lt
+     * @param gt
+     * @param name
+     * @return
+     */
+    public static String assertString(String str, int lt, int gt, String name){
+        if(str == null || str.trim().isEmpty()){
+            return name+"不能为空";
+        }
+        if(str.length() < lt){
+            return name+"长度不能小于"+lt;
+        }
+        if(str.length() > gt){
+            return name+"长度不能大于"+gt;
+        }
+        return null;
+    }
+
 }
