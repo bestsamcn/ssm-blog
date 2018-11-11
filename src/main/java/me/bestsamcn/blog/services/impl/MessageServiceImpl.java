@@ -89,4 +89,28 @@ public class MessageServiceImpl extends BaseServiceImpl<Message> implements Mess
             return Response.error();
         }
     }
+
+    @Override
+    public Response getAdjoinById(String id){
+        if(id == null || id.trim().length() != 32){
+            return Response.error("无此数据");
+        }
+        Message curr = null;
+        Message prev = null;
+        Message next = null;
+        try{
+            curr = getMapper().selectByPrimaryKey(id);
+            System.out.println(curr.getPostTime());
+            Date date = curr.getPostTime();
+            prev = getMapper().selectAdjoin("lt", date.toString());
+            next = getMapper().selectAdjoin("gt", date.toString());
+            Map<String, Message> map = new HashMap();
+            map.put("curr", curr);
+            map.put("prev", prev);
+            map.put("next", next);
+            return Response.build(map);
+        }catch (Exception e){
+            return Response.error();
+        }
+    }
 }

@@ -28,4 +28,11 @@ public interface MessageService extends BaseService<Message>{
      * @return
      */
     public Response getList(int pageIndex, int pageSize, int type, String keyword);
+
+    /**
+     * 获取相邻数据
+     * @param id
+     * @return
+     */
+    public Response getAdjoinById(String id);
 }

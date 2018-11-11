@@ -21,6 +21,22 @@
     from t_message message
     where message.id = #{id,jdbcType=CHAR}
   </select>
+<select id="selectAdjoin" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_message message
+    <trim prefix="WHERE" prefixOverrides="AND">
+        <if test="type != null and type != '' and datetime != null and datetime != ''">
+            <if test="type == 'lt'">
+                AND message.post_time &lt; '${datetime}'
+            </if>
+            <if test="type == 'gt'">
+                AND message.post_time &gt; '${datetime}'
+            </if>
+        </if>
+    </trim>
+    limit 1
+</select>
   <select id="selectAll" resultType="me.bestsamcn.blog.models.Message">
     select * from t_message
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
