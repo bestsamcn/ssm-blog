@@ -23,7 +23,7 @@
     <select id="selectAll" resultType="me.bestsamcn.blog.models.Notify">
         select * from t_notify
         <trim prefix="WHERE" prefixOverrides="AND |OR ">
-            <if test="type != null">
+            <if test="isActive != null and keyword !=''">
                 AND is_active = ${isActive}
             </if>
             <if test="keyword != null and keyword !=''">

@@ -30,7 +30,7 @@ public class NotifyServiceImpl extends BaseServiceImpl<Notify> implements Notify
     NotifyMapper notifyMapper;
 
     @Override
-    public Response add(String content, int expireTime, int isActive) {
+    public Response add(String content, long expireTime, int isActive) {
         String contMsg = Tools.assertString(content, 6, 250, "内容");
         if(contMsg != null){
             return Response.error(contMsg);
@@ -43,8 +43,6 @@ public class NotifyServiceImpl extends BaseServiceImpl<Notify> implements Notify
         if(NotifyType.getEnum(isActive) == null){
             return Response.error("状态类型错误");
         }
-
-
 
         Timestamp createTime = new Timestamp(new Date().getTime());
         Notify notify = new Notify();
@@ -66,9 +64,9 @@ public class NotifyServiceImpl extends BaseServiceImpl<Notify> implements Notify
     }
 
     @Override
-    public Response edit(String id, String content, int expireTime, int isActive) {
+    public Response edit(String id, String content, long expireTime, int isActive) {
         String idMsg = Tools.assertString(id, 32, 32, "id");
-        String contMsg = Tools.assertString(content, 32, 32, "内容");
+        String contMsg = Tools.assertString(content, 6, 250, "内容");
         String expTime =  String.valueOf(expireTime);
         if(idMsg != null){
             return Response.error("无此数据");

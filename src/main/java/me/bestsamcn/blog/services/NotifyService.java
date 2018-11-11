@@ -16,7 +16,7 @@ public interface NotifyService extends BaseService<Notify>{
      * @param isActive
      * @return
      */
-    public Response add(String content,  int expireTime, int isActive);
+    public Response add(String content,  long expireTime, int isActive);
 
     /**
      * 编辑
@@ -26,7 +26,7 @@ public interface NotifyService extends BaseService<Notify>{
      * @param isActive
      * @return
      */
-    public Response edit(String id, String content, int expireTime, int isActive);
+    public Response edit(String id, String content, long expireTime, int isActive);
 
     /**
      * 分页

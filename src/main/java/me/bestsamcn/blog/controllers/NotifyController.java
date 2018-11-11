@@ -22,7 +22,7 @@ public class NotifyController {
     @PostMapping(name="新增", value="add")
     @ResponseBody
     public Response add(@RequestParam("content") String content,
-                        @RequestParam("expireTime") int expireTime,
+                        @RequestParam("expireTime") long expireTime,
                         @RequestParam("isActive") int isActive) {
         Response res = notifyService.add(content, expireTime, isActive);
         return res;
@@ -30,10 +30,10 @@ public class NotifyController {
 
     @PostMapping(name="编辑", value="edit")
     @ResponseBody
-    public Response edit(@RequestParam("content") String id,
+    public Response edit(@RequestParam("id") String id,
                          @RequestParam("content") String content,
-                         @RequestParam("content") int expireTime,
-                         @RequestParam("content") int isActive) {
+                         @RequestParam("expireTime") long expireTime,
+                         @RequestParam("isActive") int isActive) {
         Response res = notifyService.edit(id, content, expireTime, isActive);
         return res;
     }
