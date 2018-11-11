@@ -28,7 +28,7 @@
         AND is_read = ${type}
       </if>
       <if test="keyword != null and keyword !=''">
-        AND CONCAT(`name`, `content`, `email`) LIKE CONCAT('%',${keyword},'%')
+        AND (name~'${keyword}' OR content~'${keyword}' OR email~'${keyword}')
       </if>
     </trim>
     <if test="orderName != null">
