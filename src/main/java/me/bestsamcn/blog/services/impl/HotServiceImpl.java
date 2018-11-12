@@ -36,6 +36,7 @@ public class HotServiceImpl extends BaseServiceImpl<Hot> implements HotService {
     public List<Hot> getList() {
         return getMapper().selectAll();
     }
+
     @Override
     @Transactional
     public Response add(String name){

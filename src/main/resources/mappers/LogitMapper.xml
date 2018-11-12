@@ -29,7 +29,7 @@
     <select id="selectAll" resultType="me.bestsamcn.blog.models.Logit">
         select * from t_logit
         <trim prefix="WHERE" prefixOverrides="AND |OR ">
-            <if test="type != null">
+            <if test="type != null and type != 10">
                 AND type = ${type}
             </if>
             <if test="keyword != null and keyword !=''">

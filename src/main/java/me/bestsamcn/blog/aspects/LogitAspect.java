@@ -1,10 +1,10 @@
 package me.bestsamcn.blog.aspects;
 
-import me.bestsamcn.blog.annotations.ControllerLog;
-import me.bestsamcn.blog.models.Admin;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import me.bestsamcn.blog.annotations.ControllerLogit;
 import me.bestsamcn.blog.models.Logit;
+import me.bestsamcn.blog.models.IpInfoVO;
 import me.bestsamcn.blog.services.LogitService;
-import me.bestsamcn.blog.utils.Session;
 import me.bestsamcn.blog.utils.Tools;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,10 +18,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @Author: Sam
@@ -37,15 +37,13 @@ public class LogitAspect {
 
     private  static  final Logger logger = LoggerFactory.getLogger(LogitAspect.class);
 
-    //Controller层切点
-    @Pointcut("@annotation(me.bestsamcn.blog.annotations.ControllerLog)")
+    @Pointcut("@annotation(me.bestsamcn.blog.annotations.ControllerLogit)")
     public  void controllerAspect() {
     }
 
     /**
      * 前置通知
-     *
-     * @param joinPoint 切点
+     * @param joinPoint
      */
     @Before("controllerAspect()")
     public  void doBefore(JoinPoint joinPoint) {
@@ -53,26 +51,31 @@ public class LogitAspect {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String ip = request.getRemoteAddr();
         try {
-            //*========控制台输出=========*//
-            System.out.println("=====前置通知开始=====");
-            System.out.println("请求方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()"));
-            System.out.println("方法描述:" + getControllerMethodDescription(joinPoint));
-            System.out.println("请求IP:" + ip);
-            //*========数据库日志=========*//
+
+            //ip查询
+            String result = Tools.sendGet("http://ip.taobao.com/service/getIpInfo.php", "ip="+ip);
             Logit logit = new Logit();
+            if(result != null && !result.trim().isEmpty()){
+                ObjectMapper objectMapper = new ObjectMapper();
+                IpInfoVO ipInfoVO = objectMapper.readValue(result, IpInfoVO.class);
+                String code = ipInfoVO.getCode();
+                if(code != null && code.equals("0")){
+                    Map<String , String> map = ipInfoVO.getData();
+                    logit.setAccessIp(ip);
+                    logit.setCountry(map.get("country"));
+                    logit.setProvince(map.get("region"));
+                    logit.setCity(map.get("city"));
+                    logit.setDistrict(map.get("area"));
+                }
+            }
             logit.setId(Tools.getUUID());
             logit.setDescription(getControllerMethodDescription(joinPoint));
             logit.setApiName((joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()"));
             logit.setType(20);
             logit.setAccessIp(ip);
             logit.setCreateTime(new Timestamp(new Date().getTime()));
-
-            //保存数据库
             logitService.insert(logit);
-            System.out.println("=====前置通知结束=====");
         }  catch (Exception e) {
-            //记录本地异常日志
-            logger.error("==前置通知异常==");
             logger.error("异常信息:{}", e.getMessage());
         }
     }
@@ -81,10 +84,9 @@ public class LogitAspect {
 
 
     /**
-     * 获取注解中对方法的描述信息 用于Controller层注解
-     *
-     * @param joinPoint 切点
-     * @return 方法描述
+     * 获取注解中对方法的描述信息
+     * @param joinPoint
+     * @return
      * @throws Exception
      */
     public  static String getControllerMethodDescription(JoinPoint joinPoint)  throws Exception {
@@ -98,7 +100,7 @@ public class LogitAspect {
             if (method.getName().equals(methodName)) {
                 Class[] clazzs = method.getParameterTypes();
                 if (clazzs.length == arguments.length) {
-                    description = method.getAnnotation(ControllerLog.class).description();
+                    description = method.getAnnotation(ControllerLogit.class).description();
                     break;
                 }
             }

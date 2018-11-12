@@ -5,14 +5,14 @@ package me.bestsamcn.blog.enums;
  * @Date: 2018/11/11 20:33
  */
 
-public enum LogType {
+public enum LogitType {
     ALL(10, "全部"),
     YES(20, "控制日志"),
     NOT(30, "服务日志");
 
     private int key;
     private String name;
-    LogType(int key, String name) {
+    LogitType(int key, String name) {
         this.key = key;
         this.name = name;
     }
