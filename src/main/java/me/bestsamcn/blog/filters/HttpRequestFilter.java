@@ -26,6 +26,23 @@ import java.util.regex.Pattern;
         return value;
     }
 
+    /**
+     * 覆盖getParameterValues方法，将参数名和参数值都做xss过滤
+     */
+    public String[] getParameterValues(String parameter) {
+        String[] values = super.getParameterValues(parameter);
+        if (values==null)  {
+            return null;
+        }
+        int count = values.length;
+        String[] encodedValues = new String[count];
+        for (int i = 0; i < count; i++) {
+            encodedValues[i] = xssEncode(values[i]);
+        }
+        return encodedValues;
+    }
+
+
     @Override
     public String getHeader(String name) {
 
