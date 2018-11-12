@@ -45,7 +45,7 @@
 
 
         <!--需要自动化的表信息-->
-        <table alias="notify" tableName="t_notify" domainObjectName="Notify"
+        <table alias="logit" tableName="t_logit" domainObjectName="Logit"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

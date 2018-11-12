@@ -12,7 +12,7 @@
  Target Server Version : 90514
  File Encoding         : 65001
 
- Date: 29/10/2018 21:22:32
+ Date: 12/11/2018 21:59:28
 */
 
 
@@ -141,30 +141,6 @@ COMMENT ON COLUMN "public"."t_comment"."parent_comment" IS 'parent_comment';
 COMMENT ON TABLE "public"."t_comment" IS 'comment';
 
 -- ----------------------------
--- Table structure for t_count
--- ----------------------------
-DROP TABLE IF EXISTS "public"."t_count";
-CREATE TABLE "public"."t_count" (
-  "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
-  "access_ip" char(15) COLLATE "pg_catalog"."default",
-  "api_name" varchar(250) COLLATE "pg_catalog"."default" NOT NULL,
-  "country" varchar(250) COLLATE "pg_catalog"."default",
-  "province" varchar(250) COLLATE "pg_catalog"."default",
-  "city" varchar(250) COLLATE "pg_catalog"."default",
-  "district" varchar(250) COLLATE "pg_catalog"."default",
-  "create_time" timestamp(6) DEFAULT now()
-)
-;
-COMMENT ON COLUMN "public"."t_count"."id" IS 'id';
-COMMENT ON COLUMN "public"."t_count"."access_ip" IS 'accessip';
-COMMENT ON COLUMN "public"."t_count"."api_name" IS 'apiName';
-COMMENT ON COLUMN "public"."t_count"."country" IS 'country';
-COMMENT ON COLUMN "public"."t_count"."province" IS 'province';
-COMMENT ON COLUMN "public"."t_count"."city" IS 'city';
-COMMENT ON COLUMN "public"."t_count"."district" IS 'district';
-COMMENT ON TABLE "public"."t_count" IS 'count';
-
--- ----------------------------
 -- Table structure for t_hot
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."t_hot";
@@ -182,6 +158,37 @@ COMMENT ON COLUMN "public"."t_hot"."hot_count" IS 'hot_count';
 COMMENT ON TABLE "public"."t_hot" IS 'hot';
 
 -- ----------------------------
+-- Table structure for t_log
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."t_log";
+CREATE TABLE "public"."t_log" (
+  "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+  "access_ip" char(15) COLLATE "pg_catalog"."default",
+  "api_name" varchar(250) COLLATE "pg_catalog"."default" NOT NULL,
+  "country" varchar(250) COLLATE "pg_catalog"."default",
+  "province" varchar(250) COLLATE "pg_catalog"."default",
+  "city" varchar(250) COLLATE "pg_catalog"."default",
+  "district" varchar(250) COLLATE "pg_catalog"."default",
+  "create_time" timestamp(6) DEFAULT now(),
+  "description" varchar(255) COLLATE "pg_catalog"."default",
+  "type" int4 NOT NULL,
+  "exception_class" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+COMMENT ON COLUMN "public"."t_log"."id" IS 'id';
+COMMENT ON COLUMN "public"."t_log"."access_ip" IS 'accessip';
+COMMENT ON COLUMN "public"."t_log"."api_name" IS 'apiName';
+COMMENT ON COLUMN "public"."t_log"."country" IS 'country';
+COMMENT ON COLUMN "public"."t_log"."province" IS 'province';
+COMMENT ON COLUMN "public"."t_log"."city" IS 'city';
+COMMENT ON COLUMN "public"."t_log"."district" IS 'district';
+COMMENT ON COLUMN "public"."t_log"."create_time" IS 'creatTime';
+COMMENT ON COLUMN "public"."t_log"."description" IS 'description';
+COMMENT ON COLUMN "public"."t_log"."type" IS 'type';
+COMMENT ON COLUMN "public"."t_log"."exception_class" IS 'exceptionClass';
+COMMENT ON TABLE "public"."t_log" IS 'count';
+
+-- ----------------------------
 -- Table structure for t_message
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."t_message";
@@ -190,7 +197,7 @@ CREATE TABLE "public"."t_message" (
   "name" varchar(26) COLLATE "pg_catalog"."default" NOT NULL,
   "email" varchar(26) COLLATE "pg_catalog"."default" NOT NULL,
   "content" varchar(250) COLLATE "pg_catalog"."default" NOT NULL,
-  "is_read" bool,
+  "is_read" int4,
   "read_time" timestamp(0),
   "post_time" timestamp(0) DEFAULT now()
 )
@@ -214,7 +221,7 @@ CREATE TABLE "public"."t_notify" (
   "create_time" timestamp(0) NOT NULL DEFAULT now(),
   "last_edit_time" timestamp(0) NOT NULL DEFAULT now(),
   "expire_time" timestamp(0),
-  "is_active" bool
+  "is_active" int4 DEFAULT 10
 )
 ;
 COMMENT ON COLUMN "public"."t_notify"."id" IS 'id';
@@ -270,11 +277,6 @@ ALTER TABLE "public"."t_category" ADD CONSTRAINT "pk_category" PRIMARY KEY ("id"
 ALTER TABLE "public"."t_comment" ADD CONSTRAINT "pk_comment" PRIMARY KEY ("id");
 
 -- ----------------------------
--- Primary Key structure for table t_count
--- ----------------------------
-ALTER TABLE "public"."t_count" ADD CONSTRAINT "pk_count" PRIMARY KEY ("id");
-
--- ----------------------------
 -- Indexes structure for table t_hot
 -- ----------------------------
 CREATE UNIQUE INDEX "hot_id_idx" ON "public"."t_hot" USING btree (
@@ -285,6 +287,11 @@ CREATE UNIQUE INDEX "hot_id_idx" ON "public"."t_hot" USING btree (
 -- Primary Key structure for table t_hot
 -- ----------------------------
 ALTER TABLE "public"."t_hot" ADD CONSTRAINT "pk_hot" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Primary Key structure for table t_log
+-- ----------------------------
+ALTER TABLE "public"."t_log" ADD CONSTRAINT "pk_count" PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Primary Key structure for table t_message
@@ -312,7 +319,7 @@ ALTER TABLE "public"."t_tag" ADD CONSTRAINT "name" UNIQUE ("name");
 -- ----------------------------
 -- Primary Key structure for table t_tag
 -- ----------------------------
-ALTER TABLE "public"."t_tag" ADD CONSTRAINT "pk_tag" PRIMARY KEY ("id", "name");
+ALTER TABLE "public"."t_tag" ADD CONSTRAINT "pk_tag" PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Foreign Keys structure for table t_article

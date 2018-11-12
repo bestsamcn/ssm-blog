@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.bestsamcn.blog.dao.LogitMapper">
+    <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.Logit">
+        <id column="logit_id" property="id" jdbcType="CHAR"/>
+        <result column="logit_access_ip" property="accessIp" jdbcType="CHAR"/>
+        <result column="logit_api_name" property="apiName" jdbcType="VARCHAR"/>
+        <result column="logit_country" property="country" jdbcType="VARCHAR"/>
+        <result column="logit_province" property="province" jdbcType="VARCHAR"/>
+        <result column="logit_city" property="city" jdbcType="VARCHAR"/>
+        <result column="logit_district" property="district" jdbcType="VARCHAR"/>
+        <result column="logit_create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="logit_description" property="description" jdbcType="VARCHAR"/>
+        <result column="logit_type" property="type" jdbcType="INTEGER"/>
+        <result column="logit_exception_class" property="exceptionClass" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        logit.id as logit_id, logit.access_ip as logit_access_ip, logit.api_name as logit_api_name,
+        logit.country as logit_country, logit.province as logit_province, logit.city as logit_city,
+        logit.district as logit_district, logit.create_time as logit_create_time, logit.description as logit_description,
+        logit.type as logit_type, logit.exception_class as logit_exception_class
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_logit logit
+        where logit.id = #{id,jdbcType=CHAR}
+    </select>
+    <select id="selectAll" resultType="me.bestsamcn.blog.models.Logit">
+        select * from t_logit
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="type != null">
+                AND type = ${type}
+            </if>
+            <if test="keyword != null and keyword !=''">
+                AND (api_name~'${keyword}' OR access_api~'${keyword}' OR description~'${keyword}')
+            </if>
+        </trim>
+        <if test="orderName != null">
+            order by ${orderName} desc
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from t_logit
+        where id = #{id,jdbcType=CHAR}
+    </delete>
+    <insert id="insert" parameterType="me.bestsamcn.blog.models.Logit">
+        insert into t_logit (id, access_ip, api_name,
+        country, province, city,
+        district, create_time, description,
+        type, exception_class)
+        values (#{id,jdbcType=CHAR}, #{accessIp,jdbcType=CHAR}, #{apiName,jdbcType=VARCHAR},
+        #{country,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+        #{district,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR},
+        #{type,jdbcType=INTEGER}, #{exceptionClass,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="me.bestsamcn.blog.models.Logit">
+        insert into t_logit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="accessIp != null">
+                access_ip,
+            </if>
+            <if test="apiName != null">
+                api_name,
+            </if>
+            <if test="country != null">
+                country,
+            </if>
+            <if test="province != null">
+                province,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="district != null">
+                district,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="exceptionClass != null">
+                exception_class,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=CHAR},
+            </if>
+            <if test="accessIp != null">
+                #{accessIp,jdbcType=CHAR},
+            </if>
+            <if test="apiName != null">
+                #{apiName,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="district != null">
+                #{district,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="exceptionClass != null">
+                #{exceptionClass,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="me.bestsamcn.blog.models.Logit">
+        update t_logit
+        <set>
+            <if test="accessIp != null">
+                access_ip = #{accessIp,jdbcType=CHAR},
+            </if>
+            <if test="apiName != null">
+                api_name = #{apiName,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="district != null">
+                district = #{district,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="exceptionClass != null">
+                exception_class = #{exceptionClass,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="me.bestsamcn.blog.models.Logit">
+        update t_logit
+        set access_ip = #{accessIp,jdbcType=CHAR},
+        api_name = #{apiName,jdbcType=VARCHAR},
+        country = #{country,jdbcType=VARCHAR},
+        province = #{province,jdbcType=VARCHAR},
+        city = #{city,jdbcType=VARCHAR},
+        district = #{district,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        description = #{description,jdbcType=VARCHAR},
+        type = #{type,jdbcType=INTEGER},
+        exception_class = #{exceptionClass,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=CHAR}
+    </update>
+</mapper>

@@ -1,5 +1,6 @@
 package me.bestsamcn.blog.controllers;
 
+import me.bestsamcn.blog.annotations.ControllerLog;
 import me.bestsamcn.blog.annotations.LoginRequired;
 import me.bestsamcn.blog.models.Admin;
 import me.bestsamcn.blog.services.AdminService;
@@ -73,6 +74,7 @@ public class AdminController {
 
     @PostMapping(name="登陆", value="login")
     @ResponseBody
+    @ControllerLog(description = "登陆")
     public Response login(
             @CookieValue(value="JSESSIONID", required = false) String JSESSIONID,
             @RequestParam("account") String account,
