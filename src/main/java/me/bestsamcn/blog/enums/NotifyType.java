@@ -17,10 +17,10 @@ public enum NotifyType {
         this.name = name;
     }
 
-    public static MessageType getEnum(Integer key){
-        for(MessageType messageType : MessageType.values()){
-            if(messageType.getKey() == key){
-                return messageType;
+    public static NotifyType getEnum(Integer key){
+        for(NotifyType notifyType : NotifyType.values()){
+            if(notifyType.getKey() == key){
+                return notifyType;
             }
         }
        return null;

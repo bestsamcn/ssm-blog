@@ -17,10 +17,10 @@ public enum LogitType {
         this.name = name;
     }
 
-    public static MessageType getEnum(Integer key){
-        for(MessageType messageType : MessageType.values()){
-            if(messageType.getKey() == key){
-                return messageType;
+    public static LogitType getEnum(Integer key){
+        for(LogitType logitType : LogitType.values()){
+            if(logitType.getKey() == key){
+                return logitType;
             }
         }
         return null;
@@ -30,7 +30,7 @@ public enum LogitType {
         return this.key;
     }
 
-    public Object getName(){
+    public String getName(){
         return this.name;
     }
 }
