@@ -7,7 +7,6 @@ package me.bestsamcn.blog.enums;
 public enum ArticleType {
     Public(10, "全部"),
     Private(20, "私有");
-
     private int key;
     private String name;
     ArticleType(int key, String name) {
@@ -22,11 +21,9 @@ public enum ArticleType {
         }
         return null;
     }
-
     public int getKey(){
         return this.key;
     }
-
     public String getName(){
         return this.name;
     }

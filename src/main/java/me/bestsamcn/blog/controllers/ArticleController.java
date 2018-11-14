@@ -33,7 +33,7 @@ public class ArticleController {
     @ResponseBody
     public Response getById(){
         try{
-            Article article = articleService.selectById("24fe562b9a794727afbbfbd1d2d09b6d");
+            Article article = articleService.selectById("942fa4dc62484384b4e7c87ec02f7f03");
             if(article != null){
                 return Response.build(article);
             }

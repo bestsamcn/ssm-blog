@@ -38,7 +38,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
         article.setCreator("77a7e4b88b404d09bd5ee9bace3825af");
         article.setCreateTime(new Timestamp(new Date().getTime()));
         article.setLastEditTime(new Timestamp(new Date().getTime()));
-        article.setIsPrivate(ArticleType.Public);
+        article.setIsPrivate(ArticleType.Private);
         article.setReadNum(0);
         article.setThumbnail("adfas");
         article.setLikeNum(0);

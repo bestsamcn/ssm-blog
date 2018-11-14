@@ -5,15 +5,14 @@ package me.bestsamcn.blog.convertors;
  * @Date: 2018/11/13 21:20
  */
 
+import me.bestsamcn.blog.enums.ArticleType;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import me.bestsamcn.blog.enums.ArticleType;
-import org.apache.ibatis.type.BaseTypeHandler;
-import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.TypeHandler;
 
 
 /**

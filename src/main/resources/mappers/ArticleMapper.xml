@@ -20,7 +20,7 @@
         <result column="article_code_content" jdbcType="VARCHAR" property="codeContent"/>
         <result column="article_preview_text" jdbcType="VARCHAR" property="previewText"/>
         <result column="article_like_num" jdbcType="INTEGER" property="likeNum"/>
-        <result column="article_is_private" property="isPrivate" typeHandler="me.bestsamcn.blog.convertors.ArticleTypeHandler"/>
+        <result column="article_is_private" property="isPrivate" />
     </resultMap>
     <sql id="Base_Column_List">
         article.id as article_id, article.creator as article_creator, article.category as article_category,
@@ -56,7 +56,7 @@
         #{createTime,jdbcType=TIMESTAMP}, #{lastEditTime,jdbcType=TIMESTAMP}, #{categoryName,jdbcType=VARCHAR},
         #{tagName,jdbcType=VARCHAR}, #{readNum,jdbcType=INTEGER}, #{commentNum,jdbcType=INTEGER},
         #{codeContent,jdbcType=VARCHAR}, #{previewText,jdbcType=VARCHAR}, #{likeNum,jdbcType=INTEGER},
-        #{isPrivate,jdbcType=INTEGER,typeHandler=me.bestsamcn.blog.convertors.ArticleTypeHandler})
+        #{isPrivate})
     </insert>
     <update id="updateByPrimaryKey" parameterType="me.bestsamcn.blog.models.Article">>
         update t_article
@@ -77,7 +77,7 @@
         code_content = #{codeContent,jdbcType=VARCHAR},
         preview_text = #{previewText,jdbcType=VARCHAR},
         like_num = #{likeNum,jdbcType=INTEGER},
-        is_private = #{isPrivate,jdbcType=INTEGER,typeHandler=me.bestsamcn.blog.convertors.ArticleTypeHandler}
+        is_private = #{isPrivate,jdbcType=INTEGER}
         where id = #{id,jdbcType=CHAR}
     </update>
 </mapper>
