@@ -6,11 +6,11 @@ import me.bestsamcn.blog.enums.ArticleType;
 public class Article {
     private String id;
 
-    private String creator;
+    private String creatorId;
 
-    private String category;
+    private String categoryId;
 
-    private String tag;
+    private String tagId;
 
     private String thumbnail;
 
@@ -25,10 +25,6 @@ public class Article {
     private Date createTime;
 
     private Date lastEditTime;
-
-    private String categoryName;
-
-    private String tagName;
 
     private Integer readNum;
 
@@ -50,28 +46,28 @@ public class Article {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getCreator() {
-        return creator;
+    public String getCreatorId() {
+        return creatorId;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator == null ? null : creator.trim();
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId == null ? null : creatorId.trim();
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(String category) {
-        this.category = category == null ? null : category.trim();
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId == null ? null : categoryId.trim();
     }
 
-    public String getTag() {
-        return tag;
+    public String getTagId() {
+        return tagId;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag == null ? null : tag.trim();
+    public void setTagId(String tagId) {
+        this.tagId = tagId == null ? null : tagId.trim();
     }
 
     public String getThumbnail() {
@@ -128,22 +124,6 @@ public class Article {
 
     public void setLastEditTime(Date lastEditTime) {
         this.lastEditTime = lastEditTime;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName == null ? null : categoryName.trim();
-    }
-
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName == null ? null : tagName.trim();
     }
 
     public Integer getReadNum() {

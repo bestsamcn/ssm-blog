@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @Author: Sam
@@ -28,24 +27,25 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     }
 
     @Override
-    public Response add() {
-
+    public Response add(String creatorId, String categoryId, String tagId, String title, String previewText, String content, String codeContent, String poster,
+                        ArticleType isPrivate) {
+        Timestamp now = Tools.getTimestamp();
         Article article = new Article();
         article.setId(Tools.getUUID());
-        article.setTag("384fd2004113489293138ae184b9f56d");
-        article.setCategory("6707a21a308a40f19bb850f9302f92b7");
-        article.setContent("我是是中国国人");
-        article.setCreator("77a7e4b88b404d09bd5ee9bace3825af");
-        article.setCreateTime(new Timestamp(new Date().getTime()));
-        article.setLastEditTime(new Timestamp(new Date().getTime()));
-        article.setIsPrivate(ArticleType.Private);
+        article.setTagId(tagId);
+        article.setCategoryId(categoryId);
+        article.setTitle(title);
+        article.setContent(content);
+        article.setCodeContent(codeContent);
+        article.setCreatorId(creatorId);
+        article.setCreateTime(now);
+        article.setLastEditTime(now);
+        article.setIsPrivate(isPrivate);
         article.setReadNum(0);
-        article.setThumbnail("adfas");
+        article.setThumbnail("");
         article.setLikeNum(0);
-        article.setPreviewText("alksdfasf");
-        article.setCodeContent("Sdfsadf");
+        article.setPreviewText(previewText);
         article.setCommentNum(0);
-        article.setTitle("sldfalsdfj");
         try{
             int row = getMapper().insert(article);
             if(row == 1){
@@ -56,4 +56,5 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
             return Response.error();
         }
     }
+
 }

@@ -1,21 +1,23 @@
 package me.bestsamcn.blog.utils;
 
+import me.bestsamcn.blog.models.Admin;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.UUID;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.InputStreamReader;
+import java.util.Date;
 /**
  * @Author: Sam
  * @Date: 2018/10/31 21:40
@@ -235,6 +237,28 @@ public class Tools {
             }
         }
         return result;
+    }
+
+    /**
+     * 通过jsessionid获取用户
+     * @param JSESSIONID
+     * @return
+     */
+    public static Admin getAdmin(String JSESSIONID){
+        HttpSession session = Session.get(JSESSIONID);
+        if(session == null){
+            return null;
+        }
+        Admin admin = (Admin) session.getAttribute(JSESSIONID);
+        return admin;
+    }
+
+    /**
+     * 获取当前时间戳
+     * @return
+     */
+    public static Timestamp getTimestamp(){
+        return new java.sql.Timestamp(new Date().getTime());
     }
 
 }

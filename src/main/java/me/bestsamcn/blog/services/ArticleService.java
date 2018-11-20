@@ -10,5 +10,20 @@ import me.bestsamcn.blog.utils.Response;
  */
 public interface ArticleService extends BaseService<Article> {
 
-    public Response add();
+
+    /**
+     * 添加
+     * @param creatorId
+     * @param categoryId
+     * @param tagId
+     * @param title
+     * @param previewText
+     * @param content
+     * @param codeContent
+     * @param poster
+     * @param isPrivate
+     * @return
+     */
+    public Response add(String creatorId, String categoryId, String tagId, String title, String previewText, String content, String codeContent, String poster,
+                        ArticleType isPrivate);
 }

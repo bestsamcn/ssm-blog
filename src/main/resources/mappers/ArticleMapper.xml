@@ -1,83 +1,79 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="me.bestsamcn.blog.dao.ArticleMapper">
-    <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.Article">
-        <id column="article_id" jdbcType="CHAR" property="id"/>
-        <result column="article_creator" jdbcType="CHAR" property="creator"/>
-        <result column="article_category" jdbcType="CHAR" property="category"/>
-        <result column="article_tag" jdbcType="CHAR" property="tag"/>
-        <result column="article_thumbnail" jdbcType="VARCHAR" property="thumbnail"/>
-        <result column="article_poster" jdbcType="VARCHAR" property="poster"/>
-        <result column="article_content" jdbcType="VARCHAR" property="content"/>
-        <result column="article_title" jdbcType="VARCHAR" property="title"/>
-        <result column="article_pinyin" jdbcType="VARCHAR" property="pinyin"/>
-        <result column="article_create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="article_last_edit_time" jdbcType="TIMESTAMP" property="lastEditTime"/>
-        <result column="article_category_name" jdbcType="VARCHAR" property="categoryName"/>
-        <result column="article_tag_name" jdbcType="VARCHAR" property="tagName"/>
-        <result column="article_read_num" jdbcType="INTEGER" property="readNum"/>
-        <result column="article_comment_num" jdbcType="INTEGER" property="commentNum"/>
-        <result column="article_code_content" jdbcType="VARCHAR" property="codeContent"/>
-        <result column="article_preview_text" jdbcType="VARCHAR" property="previewText"/>
-        <result column="article_like_num" jdbcType="INTEGER" property="likeNum"/>
-        <result column="article_is_private" property="isPrivate" />
+    <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.ArticleVO">
+        <id column="article_id" property="id" jdbcType="CHAR"/>
+        <result column="article_thumbnail" property="thumbnail" jdbcType="VARCHAR"/>
+        <result column="article_poster" property="poster" jdbcType="VARCHAR"/>
+        <result column="article_content" property="content" jdbcType="VARCHAR"/>
+        <result column="article_title" property="title" jdbcType="VARCHAR"/>
+        <result column="article_pinyin" property="pinyin" jdbcType="VARCHAR"/>
+        <result column="article_create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="article_last_edit_time" property="lastEditTime" jdbcType="TIMESTAMP"/>
+        <result column="article_read_num" property="readNum" jdbcType="INTEGER"/>
+        <result column="article_comment_num" property="commentNum" jdbcType="INTEGER"/>
+        <result column="article_code_content" property="codeContent" jdbcType="VARCHAR"/>
+        <result column="article_preview_text" property="previewText" jdbcType="VARCHAR"/>
+        <result column="article_like_num" property="likeNum" jdbcType="INTEGER"/>
+        <result column="article_is_private" property="isPrivate"/>
+        <association column="article_creator_id" property="admin" javaType="me.bestsamcn.blog.models.Admin"
+                     select="me.bestsamcn.blog.dao.AdminMapper.selectByPrimaryKey"/>
+        <association column="article_category_id" property="category" javaType="me.bestsamcn.blog.models.Category"
+                     select="me.bestsamcn.blog.dao.CategoryMapper.selectByPrimaryKey"/>
+        <association column="article_tag_id" property="tag" javaType="me.bestsamcn.blog.models.Tag"
+                     select="me.bestsamcn.blog.dao.TagMapper.selectByPrimaryKey"/>
     </resultMap>
     <sql id="Base_Column_List">
-        article.id as article_id, article.creator as article_creator, article.category as article_category,
-        article.tag as article_tag, article.thumbnail as article_thumbnail, article.poster as article_poster,
-        article.content as article_content, article.title as article_title, article.pinyin as article_pinyin,
-        article.create_time as article_create_time, article.last_edit_time as article_last_edit_time,
-        article.category_name as article_category_name, article.tag_name as article_tag_name,
-        article.read_num as article_read_num, article.comment_num as article_comment_num,
-        article.code_content as article_code_content, article.preview_text as article_preview_text,
-        article.like_num as article_like_num, article.is_private as article_is_private
-    </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    article.id as article_id, article.creator_id as article_creator_id, article.category_id as article_category_id, 
+    article.tag_id as article_tag_id, article.thumbnail as article_thumbnail, article.poster as article_poster, 
+    article.content as article_content, article.title as article_title, article.pinyin as article_pinyin, 
+    article.create_time as article_create_time, article.last_edit_time as article_last_edit_time, 
+    article.read_num as article_read_num, article.comment_num as article_comment_num, 
+    article.code_content as article_code_content, article.preview_text as article_preview_text, 
+    article.like_num as article_like_num, article.is_private as article_is_private
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
         from t_article article
         where article.id = #{id,jdbcType=CHAR}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-        delete from t_article
-        where id = #{id,jdbcType=CHAR}
-    </delete>
+    delete from t_article
+    where id = #{id,jdbcType=CHAR}
+  </delete>
     <insert id="insert" parameterType="me.bestsamcn.blog.models.Article">
-        insert into t_article (id, creator, category,
-        tag, thumbnail, poster,
-        content, title, pinyin,
-        create_time, last_edit_time, category_name,
-        tag_name, read_num, comment_num,
-        code_content, preview_text, like_num,
-        is_private)
-        values (#{id,jdbcType=CHAR}, #{creator,jdbcType=CHAR}, #{category,jdbcType=CHAR},
-        #{tag,jdbcType=CHAR}, #{thumbnail,jdbcType=VARCHAR}, #{poster,jdbcType=VARCHAR},
-        #{content,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{pinyin,jdbcType=VARCHAR},
-        #{createTime,jdbcType=TIMESTAMP}, #{lastEditTime,jdbcType=TIMESTAMP}, #{categoryName,jdbcType=VARCHAR},
-        #{tagName,jdbcType=VARCHAR}, #{readNum,jdbcType=INTEGER}, #{commentNum,jdbcType=INTEGER},
-        #{codeContent,jdbcType=VARCHAR}, #{previewText,jdbcType=VARCHAR}, #{likeNum,jdbcType=INTEGER},
-        #{isPrivate})
-    </insert>
-    <update id="updateByPrimaryKey" parameterType="me.bestsamcn.blog.models.Article">>
-        update t_article
-        set creator = #{creator,jdbcType=CHAR},
-        category = #{category,jdbcType=CHAR},
-        tag = #{tag,jdbcType=CHAR},
-        thumbnail = #{thumbnail,jdbcType=VARCHAR},
-        poster = #{poster,jdbcType=VARCHAR},
-        content = #{content,jdbcType=VARCHAR},
-        title = #{title,jdbcType=VARCHAR},
-        pinyin = #{pinyin,jdbcType=VARCHAR},
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-        last_edit_time = #{lastEditTime,jdbcType=TIMESTAMP},
-        category_name = #{categoryName,jdbcType=VARCHAR},
-        tag_name = #{tagName,jdbcType=VARCHAR},
-        read_num = #{readNum,jdbcType=INTEGER},
-        comment_num = #{commentNum,jdbcType=INTEGER},
-        code_content = #{codeContent,jdbcType=VARCHAR},
-        preview_text = #{previewText,jdbcType=VARCHAR},
-        like_num = #{likeNum,jdbcType=INTEGER},
-        is_private = #{isPrivate,jdbcType=INTEGER}
-        where id = #{id,jdbcType=CHAR}
-    </update>
+    insert into t_article (id, creator_id, category_id, 
+      tag_id, thumbnail, poster, 
+      content, title, pinyin, 
+      create_time, last_edit_time, read_num, 
+      comment_num, code_content, preview_text, 
+      like_num, is_private)
+    values (#{id,jdbcType=CHAR}, #{creatorId,jdbcType=CHAR}, #{categoryId,jdbcType=CHAR}, 
+      #{tagId,jdbcType=CHAR}, #{thumbnail,jdbcType=VARCHAR}, #{poster,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{pinyin,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastEditTime,jdbcType=TIMESTAMP}, #{readNum,jdbcType=INTEGER}, 
+      #{commentNum,jdbcType=INTEGER}, #{codeContent,jdbcType=VARCHAR}, #{previewText,jdbcType=VARCHAR}, 
+      #{likeNum,jdbcType=INTEGER}, #{isPrivate})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="me.bestsamcn.blog.models.Article">
+    update t_article
+    set creator_id = #{creatorId,jdbcType=CHAR},
+      category_id = #{categoryId,jdbcType=CHAR},
+      tag_id = #{tagId,jdbcType=CHAR},
+      thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      poster = #{poster,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      pinyin = #{pinyin,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_edit_time = #{lastEditTime,jdbcType=TIMESTAMP},
+      read_num = #{readNum,jdbcType=INTEGER},
+      comment_num = #{commentNum,jdbcType=INTEGER},
+      code_content = #{codeContent,jdbcType=VARCHAR},
+      preview_text = #{previewText,jdbcType=VARCHAR},
+      like_num = #{likeNum,jdbcType=INTEGER},
+      is_private = #{isPrivate}
+    where id = #{id,jdbcType=CHAR}
+  </update>
 </mapper>
