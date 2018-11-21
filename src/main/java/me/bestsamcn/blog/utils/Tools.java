@@ -261,4 +261,14 @@ public class Tools {
         return new java.sql.Timestamp(new Date().getTime());
     }
 
+    /**
+     * 判断是否是id
+     * @param id
+     * @return
+     */
+    public static boolean isId(String id){
+        Pattern pattern = Pattern.compile("[a-zA-Z0-9]{32}");
+        return pattern.matcher(id).matches();
+    }
+
 }

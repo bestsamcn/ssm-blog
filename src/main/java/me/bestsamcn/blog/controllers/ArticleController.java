@@ -1,6 +1,7 @@
 package me.bestsamcn.blog.controllers;
 
 import me.bestsamcn.blog.annotations.LoginRequired;
+import me.bestsamcn.blog.enums.ArticleNumberType;
 import me.bestsamcn.blog.enums.ArticleType;
 import me.bestsamcn.blog.models.Admin;
 import me.bestsamcn.blog.models.AdminVo;
@@ -12,6 +13,7 @@ import me.bestsamcn.blog.utils.Response;
 import me.bestsamcn.blog.utils.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
@@ -48,14 +50,17 @@ public class ArticleController {
         return res;
     }
 
+
     @GetMapping(name="查询", value="getById")
     @ResponseBody
+    @Transactional(rollbackFor = Exception.class)
     public Response getById(@RequestParam("id") String id){
-        if(id == null || id.trim().isEmpty() || id.trim().length() !=32){
+        if(!Tools.isId(id)){
             return Response.error("无此数据");
         }
         try{
-            ArticleVO article =  (ArticleVO) articleService.selectById(id);
+            articleService.setNumber(id, ArticleNumberType.READ, true);
+            ArticleVO article =  (ArticleVO) articleService.selectVOById(id);
             if(article != null){
                 return Response.build(article);
             }

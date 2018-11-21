@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="me.bestsamcn.blog.dao.ArticleMapper">
-    <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.ArticleVO">
+    <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.Article">
         <id column="article_id" property="id" jdbcType="CHAR"/>
         <result column="article_thumbnail" property="thumbnail" jdbcType="VARCHAR"/>
         <result column="article_poster" property="poster" jdbcType="VARCHAR"/>
@@ -16,6 +16,29 @@
         <result column="article_preview_text" property="previewText" jdbcType="VARCHAR"/>
         <result column="article_like_num" property="likeNum" jdbcType="INTEGER"/>
         <result column="article_is_private" property="isPrivate"/>
+        <result column="article_creator_id" property="creatorId" jdbcType="CHAR"/>
+        <result column="article_category_id" property="categoryId" jdbcType="CHAR"/>
+        <result column="article_tag_id" property="tagId" jdbcType="CHAR"/>
+    </resultMap>
+
+    <resultMap id="VOResultMap" type="me.bestsamcn.blog.models.ArticleVO">
+        <id column="article_id" property="id" jdbcType="CHAR"/>
+        <result column="article_thumbnail" property="thumbnail" jdbcType="VARCHAR"/>
+        <result column="article_poster" property="poster" jdbcType="VARCHAR"/>
+        <result column="article_content" property="content" jdbcType="VARCHAR"/>
+        <result column="article_title" property="title" jdbcType="VARCHAR"/>
+        <result column="article_pinyin" property="pinyin" jdbcType="VARCHAR"/>
+        <result column="article_create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="article_last_edit_time" property="lastEditTime" jdbcType="TIMESTAMP"/>
+        <result column="article_read_num" property="readNum" jdbcType="INTEGER"/>
+        <result column="article_comment_num" property="commentNum" jdbcType="INTEGER"/>
+        <result column="article_code_content" property="codeContent" jdbcType="VARCHAR"/>
+        <result column="article_preview_text" property="previewText" jdbcType="VARCHAR"/>
+        <result column="article_like_num" property="likeNum" jdbcType="INTEGER"/>
+        <result column="article_creator_id" property="creatorId" jdbcType="CHAR"/>
+        <result column="article_category_id" property="categoryId" jdbcType="CHAR"/>
+        <result column="article_tag_id" property="tagId" jdbcType="CHAR"/>
+        <result column="article_is_private" property="isPrivate"/>
         <association column="article_creator_id" property="admin" javaType="me.bestsamcn.blog.models.Admin"
                      select="me.bestsamcn.blog.dao.AdminMapper.selectByPrimaryKey"/>
         <association column="article_category_id" property="category" javaType="me.bestsamcn.blog.models.Category"
@@ -23,6 +46,7 @@
         <association column="article_tag_id" property="tag" javaType="me.bestsamcn.blog.models.Tag"
                      select="me.bestsamcn.blog.dao.TagMapper.selectByPrimaryKey"/>
     </resultMap>
+
     <sql id="Base_Column_List">
     article.id as article_id, article.creator_id as article_creator_id, article.category_id as article_category_id, 
     article.tag_id as article_tag_id, article.thumbnail as article_thumbnail, article.poster as article_poster, 
@@ -33,6 +57,12 @@
     article.like_num as article_like_num, article.is_private as article_is_private
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_article article
+        where article.id = #{id,jdbcType=CHAR}
+    </select>
+    <select id="selectVOByPrimaryKey" resultMap="VOResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
         from t_article article

@@ -1,7 +1,9 @@
 package me.bestsamcn.blog.services;
 
+import me.bestsamcn.blog.enums.ArticleNumberType;
 import me.bestsamcn.blog.enums.ArticleType;
 import me.bestsamcn.blog.models.Article;
+import me.bestsamcn.blog.models.ArticleVO;
 import me.bestsamcn.blog.utils.Response;
 
 /**
@@ -26,4 +28,38 @@ public interface ArticleService extends BaseService<Article> {
      */
     public Response add(String creatorId, String categoryId, String tagId, String title, String previewText, String content, String codeContent, String poster,
                         ArticleType isPrivate);
+
+
+    /**
+     * 添加
+     * @param id
+     * @param categoryId
+     * @param tagId
+     * @param title
+     * @param previewText
+     * @param content
+     * @param codeContent
+     * @param poster
+     * @param isPrivate
+     * @return
+     */
+    public Response edit(String id, String categoryId, String tagId, String title, String previewText, String content, String codeContent,
+                         String poster,
+                        ArticleType isPrivate);
+
+    /**
+     * 数量设置
+     * @param id
+     * @param type
+     * @param isPlus
+     * @return
+     */
+    public int setNumber(String id, ArticleNumberType type, boolean isPlus);
+
+    /**
+     * 关联查询
+     * @param id
+     * @return
+     */
+    public ArticleVO selectVOById(String id);
 }
