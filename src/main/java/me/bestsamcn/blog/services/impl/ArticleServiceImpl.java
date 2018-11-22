@@ -1,10 +1,14 @@
 package me.bestsamcn.blog.services.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import me.bestsamcn.blog.dao.ArticleMapper;
 import me.bestsamcn.blog.enums.ArticleNumberType;
 import me.bestsamcn.blog.enums.ArticleType;
+import me.bestsamcn.blog.enums.NotifyType;
 import me.bestsamcn.blog.models.Article;
 import me.bestsamcn.blog.models.ArticleVO;
+import me.bestsamcn.blog.models.Notify;
 import me.bestsamcn.blog.services.ArticleService;
 import me.bestsamcn.blog.utils.Response;
 import me.bestsamcn.blog.utils.Tools;
@@ -13,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Sam
@@ -70,29 +77,36 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
 
         try{
             Article article = this.getMapper().selectByPrimaryKey(id);
-            if(article!=null){
+            if(article == null){
                 return Response.error("无此数据");
             }
-            if(categoryId != null){
-                article.setCreatorId(categoryId);
+            if(categoryId != null && !categoryId.equals("")){
+                article.setCategoryId(categoryId);
+            }else{
+                return Response.error("分类不能为空");
             }
-            if(tagId != null){
+            if(tagId != null && !tagId.isEmpty()){
                 article.setTagId(tagId);
+            }else{
+                return Response.error("标签不能为空");
             }
-            if(title !=null){
-                article.setTagId(title);
+            if(title !=null && !title.isEmpty()){
+                article.setTitle(title);
+            }else{
+                return Response.error("标题不能为空");
             }
             if(previewText !=null){
                 article.setPreviewText(previewText);
             }
-            if(content !=null){
+            if(content !=null && !content.isEmpty()){
                 article.setContent(content);
+            }else{
+                return Response.error("内容不能为空");
             }
-            if(codeContent != null){
+            if(codeContent != null && !codeContent.isEmpty()){
                 article.setCodeContent(codeContent);
-            }
-            if(poster !=null){
-                article.setPoster(poster);
+            }else{
+                return Response.error("内容不能为空");
             }
             if(poster !=null){
                 article.setPoster(poster);
@@ -107,6 +121,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
             }
             return Response.error("编辑失败");
         }catch (Exception e){
+            e.printStackTrace();
             return Response.error();
         }
     }
@@ -115,6 +130,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     public ArticleVO selectVOById(String id){
         return this.getMapper().selectVOByPrimaryKey(id);
     }
+
 
     @Override
     public int setNumber(String id, ArticleNumberType type, boolean isPlus){
@@ -142,6 +158,28 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
         }catch(Exception e){
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    @Override
+    public Response getList(int pageIndex, int pageSize, String keyword, ArticleType type, String orderName){
+        if(pageIndex < 0 || pageSize < 0){
+            return Response.error("分页参数不正确");
+        }
+        orderName = Tools.toUnderLine(orderName);
+        try{
+            PageHelper.startPage(pageIndex, pageSize);
+            List<ArticleVO> list = this.getMapper().selectAll(orderName, keyword, type.getKey());
+            PageInfo<ArticleVO> pageInfo = new PageInfo(list, pageSize);
+            Map<String, Object> map= new HashMap();
+            map.put("list", pageInfo.getList());
+            map.put("total", pageInfo.getTotal());
+            map.put("pageIndex", pageInfo.getPageNum());
+            map.put("pageSize", pageInfo.getPageSize());
+            return Response.build(map);
+        }catch(Exception e){
+            e.printStackTrace();
+            return Response.error();
         }
     }
 

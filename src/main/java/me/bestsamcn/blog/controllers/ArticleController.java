@@ -50,6 +50,54 @@ public class ArticleController {
         return res;
     }
 
+    @PostMapping(name="编辑", value="edit")
+    @ResponseBody
+    @LoginRequired
+    public Response edit(
+                        @RequestParam("id") String id,
+                        @RequestParam("categoryId") String categoryId,
+                        @RequestParam("tagId") String tagId,
+                        @RequestParam("title") String title,
+                        @RequestParam("previewText") String previewText,
+                        @RequestParam("content") String content,
+                        @RequestParam("codeContent") String codeContent,
+                        @RequestParam(name="poster", required = false, defaultValue = "") String poster,
+                        @RequestParam(name="isPrivate", required = false, defaultValue = "PUBLIC") ArticleType isPrivate){
+        Response res = articleService.edit(id, categoryId, tagId, title, previewText, content, codeContent, poster, isPrivate);
+        return res;
+    }
+
+    @PostMapping(name="删除", value="delete")
+    @ResponseBody
+    @LoginRequired
+    public  Response delete(@RequestParam("id") String id){
+        if(!Tools.isId(id)){
+            return Response.error("无此数据");
+        }
+        try {
+            int row = articleService.remove(id);
+            if(row == 1){
+                return Response.success("删除成功");
+            }
+            return Response.error("无此数据");
+        }catch (Exception e){
+            e.printStackTrace();
+            return Response.error();
+        }
+    }
+
+
+    @GetMapping(name="查询", value="getList")
+    @ResponseBody
+    public Response getList(@RequestParam(name="pageIndex", defaultValue = "1", required = false) int pageIndex,
+                            @RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
+                            @RequestParam(name="keyword", required = false) String keyword,
+                            @RequestParam(name="type", defaultValue = "ALL", required = false) ArticleType type,
+                            @RequestParam(name="orderName", defaultValue = "lastEditTime",required = false) String orderName){
+        Response res = articleService.getList(pageIndex, pageSize, keyword, type, orderName);
+        return res;
+    }
+
 
     @GetMapping(name="查询", value="getById")
     @ResponseBody

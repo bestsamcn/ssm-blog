@@ -6,6 +6,8 @@ import me.bestsamcn.blog.models.Article;
 import me.bestsamcn.blog.models.ArticleVO;
 import me.bestsamcn.blog.utils.Response;
 
+import java.util.List;
+
 /**
  * @Author: Sam
  * @Date: 2018/11/14 0:43
@@ -62,4 +64,15 @@ public interface ArticleService extends BaseService<Article> {
      * @return
      */
     public ArticleVO selectVOById(String id);
+
+    /**
+     * 分页
+     * @param pageIndex
+     * @param pageSize
+     * @param keyword
+     * @param type
+     * @param orderName
+     * @return
+     */
+    public Response getList(int pageIndex, int pageSize, String keyword, ArticleType type, String orderName);
 }

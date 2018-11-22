@@ -5,7 +5,8 @@ package me.bestsamcn.blog.enums;
  * @Date: 2018/11/13 19:53
  */
 public enum ArticleType {
-    PUBLIC(10, "全部"),
+    ALL(0, "全部"),
+    PUBLIC(10, "公开"),
     PRIVATE(20, "私有");
     private int key;
     private String name;

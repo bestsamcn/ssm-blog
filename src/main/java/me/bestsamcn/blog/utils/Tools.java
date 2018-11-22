@@ -271,4 +271,26 @@ public class Tools {
         return pattern.matcher(id).matches();
     }
 
+    /**
+     * 驼峰转下划线
+     * @param str
+     * @return
+     */
+    public  static String toUnderLine(String str){
+        if(str == null || str.isEmpty()){
+            return "";
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i =0; i<str.length(); i++){
+            String snap = "";
+            Character _char = str.charAt(i);
+            if(_char.toString().matches("[A-Z]")){
+                snap = "_"+_char.toString().toLowerCase();
+            }else{
+                snap = _char.toString();
+            }
+            stringBuilder.append(snap);
+        }
+        return stringBuilder.toString();
+    }
 }

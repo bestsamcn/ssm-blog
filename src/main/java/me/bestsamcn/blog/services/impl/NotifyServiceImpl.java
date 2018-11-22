@@ -115,6 +115,7 @@ public class NotifyServiceImpl extends BaseServiceImpl<Notify> implements Notify
             map.put("pageSize", pageInfo.getPageSize());
             return Response.build(map);
         }catch(Exception e){
+            e.printStackTrace();
             return Response.error();
         }
     }
