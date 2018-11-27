@@ -12,7 +12,7 @@
  Target Server Version : 90514
  File Encoding         : 65001
 
- Date: 22/11/2018 00:19:44
+ Date: 27/11/2018 20:39:42
 */
 
 
@@ -77,7 +77,7 @@ CREATE TABLE "public"."t_article" (
   "thumbnail" varchar(250) COLLATE "pg_catalog"."default",
   "poster" varchar(250) COLLATE "pg_catalog"."default",
   "content" text COLLATE "pg_catalog"."default",
-  "title" varchar(120) COLLATE "pg_catalog"."default",
+  "title" varchar(120) COLLATE "pg_catalog"."default" NOT NULL,
   "pinyin" varchar(250) COLLATE "pg_catalog"."default",
   "create_time" timestamp(0) NOT NULL DEFAULT now(),
   "last_edit_time" timestamp(0) NOT NULL DEFAULT now(),
@@ -111,7 +111,8 @@ COMMENT ON TABLE "public"."t_article" IS 'article';
 -- ----------------------------
 -- Records of t_article
 -- ----------------------------
-INSERT INTO "public"."t_article" VALUES ('2a54e5a5f5f140b2b3c3fcfa262e9a54', 'd558fcbb4fda4636bb4cd5656cb7525e', '6707a21a308a40f19bb850f9302f92b7', '384fd2004113489293138ae184b9f56d', '', NULL, '内容如下啊', '我是第一篇文章', NULL, '2018-11-20 21:52:14', '2018-11-20 21:52:14', 3, 0, '我也是内容呢', '我是预览片段', 0, 10);
+INSERT INTO "public"."t_article" VALUES ('2a54e5a5f5f140b2b3c3fcfa262e9a54', 'd558fcbb4fda4636bb4cd5656cb7525e', '6707a21a308a40f19bb850f9302f92b7', '384fd2004113489293138ae184b9f56d', '', '', '内容如下内容如下内容如下内容如下内容如下a', '啊打发撒旦', NULL, '2018-11-20 21:52:14', '2018-11-22 21:31:36', 3, 0, '我也是内容呢', '我是预览片段', 0, 20);
+INSERT INTO "public"."t_article" VALUES ('6a6713ff9153471480664ea01f870d21', 'd558fcbb4fda4636bb4cd5656cb7525e', '6707a21a308a40f19bb850f9302f92b7', '384fd2004113489293138ae184b9f56d', '', NULL, '内容如下sdfasdfasdffffffffffffff', '我是第一篇文章', NULL, '2018-11-22 21:06:07', '2018-11-22 21:06:07', 0, 0, '我也是内容呢', '我是预览片段', 0, 10);
 
 -- ----------------------------
 -- Table structure for t_category
@@ -142,25 +143,26 @@ INSERT INTO "public"."t_category" VALUES ('75f3c6107f664849bcdebe58a507cb89', 'c
 DROP TABLE IF EXISTS "public"."t_comment";
 CREATE TABLE "public"."t_comment" (
   "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
-  "article" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+  "article_id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
   "content" varchar(250) COLLATE "pg_catalog"."default" NOT NULL,
   "create_time" timestamp(0) NOT NULL DEFAULT now(),
   "create_name" varchar(26) COLLATE "pg_catalog"."default" NOT NULL,
   "create_email" varchar(250) COLLATE "pg_catalog"."default" NOT NULL,
   "create_ip" varchar(15) COLLATE "pg_catalog"."default",
   "like_num" int4 DEFAULT 0,
-  "parent_comment" char(32) COLLATE "pg_catalog"."default" NOT NULL
+  "parent_id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+  "status" int4 DEFAULT 10
 )
 ;
 COMMENT ON COLUMN "public"."t_comment"."id" IS 'id';
-COMMENT ON COLUMN "public"."t_comment"."article" IS 'article';
+COMMENT ON COLUMN "public"."t_comment"."article_id" IS 'article';
 COMMENT ON COLUMN "public"."t_comment"."content" IS 'content';
 COMMENT ON COLUMN "public"."t_comment"."create_time" IS 'create_time';
 COMMENT ON COLUMN "public"."t_comment"."create_name" IS 'create_name';
 COMMENT ON COLUMN "public"."t_comment"."create_email" IS 'create_email';
 COMMENT ON COLUMN "public"."t_comment"."create_ip" IS 'create_ip';
 COMMENT ON COLUMN "public"."t_comment"."like_num" IS 'like_num';
-COMMENT ON COLUMN "public"."t_comment"."parent_comment" IS 'parent_comment';
+COMMENT ON COLUMN "public"."t_comment"."parent_id" IS 'parent_comment';
 COMMENT ON TABLE "public"."t_comment" IS 'comment';
 
 -- ----------------------------
@@ -250,6 +252,8 @@ INSERT INTO "public"."t_logit" VALUES ('96af5a1e3a0b4812853cd60b52605c7f', '0:0:
 INSERT INTO "public"."t_logit" VALUES ('256acc31ded949c5bc76f2c985f78ae5', '0:0:0:0:0:0:0:1', 'me.bestsamcn.blog.controllers.AdminController.login()', NULL, NULL, NULL, NULL, '2018-11-20 21:33:55.822', '登陆', 20, NULL);
 INSERT INTO "public"."t_logit" VALUES ('06ee48e0cc9141b6a27b152ac3a25cbb', '0:0:0:0:0:0:0:1', 'me.bestsamcn.blog.controllers.AdminController.login()', NULL, NULL, NULL, NULL, '2018-11-20 21:44:18.949', '登陆', 20, NULL);
 INSERT INTO "public"."t_logit" VALUES ('ee4ab5715f5e42938b538168c5b7cbf2', '0:0:0:0:0:0:0:1', 'me.bestsamcn.blog.controllers.AdminController.login()', NULL, NULL, NULL, NULL, '2018-11-20 21:51:47.396', '登陆', 20, NULL);
+INSERT INTO "public"."t_logit" VALUES ('eb8dd92026d249e28e8dae517bdc5027', '0:0:0:0:0:0:0:1', 'me.bestsamcn.blog.controllers.AdminController.login()', NULL, NULL, NULL, NULL, '2018-11-22 21:06:02.231', '登陆', 20, NULL);
+INSERT INTO "public"."t_logit" VALUES ('037760657b18439fa54f7ea57a83eece', '0:0:0:0:0:0:0:1', 'me.bestsamcn.blog.controllers.AdminController.login()', NULL, NULL, NULL, NULL, '2018-11-22 21:22:09.978', '登陆', 20, NULL);
 
 -- ----------------------------
 -- Table structure for t_message
@@ -415,5 +419,5 @@ ALTER TABLE "public"."t_article" ADD CONSTRAINT "fk_article_user_user" FOREIGN K
 -- ----------------------------
 -- Foreign Keys structure for table t_comment
 -- ----------------------------
-ALTER TABLE "public"."t_comment" ADD CONSTRAINT "comment_parentComment_fkey" FOREIGN KEY ("parent_comment") REFERENCES "public"."t_comment" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT;
-ALTER TABLE "public"."t_comment" ADD CONSTRAINT "fk_comment_article_article" FOREIGN KEY ("article") REFERENCES "public"."t_article" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE "public"."t_comment" ADD CONSTRAINT "comment_parentComment_fkey" FOREIGN KEY ("parent_id") REFERENCES "public"."t_comment" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE "public"."t_comment" ADD CONSTRAINT "fk_comment_article_article" FOREIGN KEY ("article_id") REFERENCES "public"."t_article" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT;

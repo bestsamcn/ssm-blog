@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.bestsamcn.blog.dao.CommentMapper" >
+  <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.Comment" >
+    <id column="comment_id" property="id" jdbcType="CHAR" />
+    <result column="comment_article_id" property="articleId" jdbcType="CHAR" />
+    <result column="comment_content" property="content" jdbcType="VARCHAR" />
+    <result column="comment_create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="comment_create_name" property="createName" jdbcType="VARCHAR" />
+    <result column="comment_create_email" property="createEmail" jdbcType="VARCHAR" />
+    <result column="comment_create_ip" property="createIp" jdbcType="VARCHAR" />
+    <result column="comment_like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="comment_parent_id" property="parentId" jdbcType="CHAR" />
+    <result column="comment_status" property="status" />
+  </resultMap>
+  <resultMap id="VOResultMap" type="me.bestsamcn.blog.models.CommentVO" >
+    <id column="comment_id" property="id" jdbcType="CHAR" />
+    <result column="comment_content" property="content" jdbcType="VARCHAR" />
+    <result column="comment_create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="comment_create_name" property="createName" jdbcType="VARCHAR" />
+    <result column="comment_create_email" property="createEmail" jdbcType="VARCHAR" />
+    <result column="comment_create_ip" property="createIp" jdbcType="VARCHAR" />
+    <result column="comment_like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="comment_parent_id" property="parentId" jdbcType="CHAR" />
+    <result column="comment_status" property="status" />
+    <association column="comment_article_id" property="article" javaType="me.bestsamcn.blog.models.Article">
+        <id column="comment_article_id" property="id" jdbcType="CHAR"/>
+        <result column="article_thumbnail" property="thumbnail" jdbcType="VARCHAR"/>
+        <result column="article_poster" property="poster" jdbcType="VARCHAR"/>
+        <result column="article_content" property="content" jdbcType="VARCHAR"/>
+        <result column="article_title" property="title" jdbcType="VARCHAR"/>
+        <result column="article_pinyin" property="pinyin" jdbcType="VARCHAR"/>
+        <result column="article_create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="article_last_edit_time" property="lastEditTime" jdbcType="TIMESTAMP"/>
+        <result column="article_read_num" property="readNum" jdbcType="INTEGER"/>
+        <result column="article_comment_num" property="commentNum" jdbcType="INTEGER"/>
+        <result column="article_code_content" property="codeContent" jdbcType="VARCHAR"/>
+        <result column="article_preview_text" property="previewText" jdbcType="VARCHAR"/>
+        <result column="article_like_num" property="likeNum" jdbcType="INTEGER"/>
+        <result column="article_creator_id" property="creatorId" jdbcType="CHAR"/>
+        <result column="article_category_id" property="categoryId" jdbcType="CHAR"/>
+        <result column="article_tag_id" property="tagId" jdbcType="CHAR"/>
+        <result column="article_is_private" property="isPrivate"/>
+    </association>
+    <association column="comment_parent_id" property="parent" javaType="me.bestsamcn.blog.models.Comment" >
+        <id column="parent_comment_id" property="id" jdbcType="CHAR" />
+        <result column="parent_comment_content" property="content" jdbcType="VARCHAR" />
+        <result column="parent_comment_create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="parent_comment_create_name" property="createName" jdbcType="VARCHAR" />
+        <result column="parent_comment_create_email" property="createEmail" jdbcType="VARCHAR" />
+        <result column="parent_comment_create_ip" property="createIp" jdbcType="VARCHAR" />
+        <result column="parent_comment_like_num" property="likeNum" jdbcType="INTEGER" />
+        <result column="parent_comment_parent_id" property="parentId" jdbcType="CHAR" />
+        <result column="parent_article_id" property="articleId" jdbcType="CHAR" />
+        <result column="parent_comment_status" property="status" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    comment.id as comment_id, comment.article_id as comment_article_id, comment.content as comment_content,
+    comment.create_time as comment_create_time, comment.create_name as comment_create_name,
+    comment.create_email as comment_create_email, comment.create_ip as comment_create_ip,
+    comment.like_num as comment_like_num, comment.parent_id as comment_parent_id, comment.status as comment_status
+  </sql>
+  <sql id="VO_Column_List" >
+    comment.id as comment_id, comment.article_id as comment_article_id, comment.content as comment_content,
+    comment.create_time as comment_create_time, comment.create_name as comment_create_name,
+    comment.create_email as comment_create_email, comment.create_ip as comment_create_ip,
+    comment.like_num as comment_like_num, comment.parent_id as comment_parent_id, comment.status as comment_status,
+
+    parent_comment.id as parent_comment_id, parent_comment.article_id as parent_comment_article_id, parent_comment.content as parent_comment_content,
+    parent_comment.create_time as parent_comment_create_time, parent_comment.create_name as parent_comment_create_name,
+    parent_comment.create_email as parent_comment_create_email, parent_comment.create_ip as parent_comment_create_ip,
+    parent_comment.like_num as parent_comment_like_num, parent_comment.parent_id as parent_comment_parent_id, parent_comment.status as parent_comment_status,
+
+    article.id as article_id, article.creator_id as article_creator_id, article.category_id as article_category_id,
+    article.tag_id as article_tag_id, article.thumbnail as article_thumbnail, article.poster as article_poster,
+    article.content as article_content, article.title as article_title, article.pinyin as article_pinyin,
+    article.create_time as article_create_time, article.last_edit_time as article_last_edit_time,
+    article.read_num as article_read_num, article.comment_num as article_comment_num,
+    article.code_content as article_code_content, article.preview_text as article_preview_text,
+    article.like_num as article_like_num, article.is_private as article_is_private
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_comment comment
+    where comment.id = #{id,jdbcType=CHAR}
+  </select>
+  <select id="selectAll" resultMap="VOResultMap">
+    select
+    <include refid="VO_Column_List"/>
+    from t_comment comment
+    left join t_comment parent_comment  on comment.parent_id=parent_comment.id
+    left join t_article article on article.id=comment.article_id
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="type != null and type !=''">
+        AND comment.status = ${type}
+      </if>
+      <if test="keyword != null and keyword !=''">
+        AND (comment.create_name~'${keyword}'
+        OR article.content~'${keyword}'
+      </if>
+    </trim>
+      order by comment_create_time desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_comment
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="me.bestsamcn.blog.models.Comment" >
+    insert into t_comment (id, article_id, content, 
+      create_time, create_name, create_email, 
+      create_ip, like_num, parent_id, 
+      status)
+    values (#{id,jdbcType=CHAR}, #{articleId,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createName,jdbcType=VARCHAR}, #{createEmail,jdbcType=VARCHAR}, 
+      #{createIp,jdbcType=VARCHAR}, #{likeNum,jdbcType=INTEGER}, #{parentId,jdbcType=CHAR}, 
+      #{status})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="me.bestsamcn.blog.models.Comment" >
+    update t_comment
+    set article_id = #{articleId,jdbcType=CHAR},
+      content = #{content,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_name = #{createName,jdbcType=VARCHAR},
+      create_email = #{createEmail,jdbcType=VARCHAR},
+      create_ip = #{createIp,jdbcType=VARCHAR},
+      like_num = #{likeNum,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=CHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

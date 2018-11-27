@@ -114,6 +114,7 @@ public class ArticleController {
             }
             return Response.error("无此数据");
         }catch (Exception e){
+            e.printStackTrace();
             return Response.error();
         }
     }

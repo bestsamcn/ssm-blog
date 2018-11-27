@@ -293,4 +293,29 @@ public class Tools {
         }
         return stringBuilder.toString();
     }
+
+    /**
+     * 获取ip
+     * @param httpServletRequest
+     * @return
+     */
+    public static String getIp(HttpServletRequest httpServletRequest){
+        String ip = httpServletRequest.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = httpServletRequest.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = httpServletRequest.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = httpServletRequest.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = httpServletRequest.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = httpServletRequest.getRemoteAddr();
+        }
+        return ip;
+    }
 }

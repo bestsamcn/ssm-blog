@@ -45,13 +45,13 @@
 
 
         <!--需要自动化的表信息-->
-        <table alias="article" tableName="t_article" domainObjectName="Article"
+        <table alias="comment" tableName="t_comment" domainObjectName="Comment"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
             <!--当遇到String的时候setter是否会先trim()-->
             <property name="trimStrings" value="true"/>
-            <columnOverride column="is_private" javaType="me.bestsamcn.blog.enums.ArticleType" />
+            <columnOverride column="status" javaType="me.bestsamcn.blog.enums.CommentStatus" />
         </table>
 
     </context>
