@@ -12,7 +12,7 @@
  Target Server Version : 90514
  File Encoding         : 65001
 
- Date: 27/11/2018 20:39:42
+ Date: 27/11/2018 23:34:18
 */
 
 
@@ -150,7 +150,7 @@ CREATE TABLE "public"."t_comment" (
   "create_email" varchar(250) COLLATE "pg_catalog"."default" NOT NULL,
   "create_ip" varchar(15) COLLATE "pg_catalog"."default",
   "like_num" int4 DEFAULT 0,
-  "parent_id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+  "parent_id" char(32) COLLATE "pg_catalog"."default",
   "status" int4 DEFAULT 10
 )
 ;
@@ -164,6 +164,14 @@ COMMENT ON COLUMN "public"."t_comment"."create_ip" IS 'create_ip';
 COMMENT ON COLUMN "public"."t_comment"."like_num" IS 'like_num';
 COMMENT ON COLUMN "public"."t_comment"."parent_id" IS 'parent_comment';
 COMMENT ON TABLE "public"."t_comment" IS 'comment';
+
+-- ----------------------------
+-- Records of t_comment
+-- ----------------------------
+INSERT INTO "public"."t_comment" VALUES ('a2406b05cac242b5b547ea68a9e3c841', '6a6713ff9153471480664ea01f870d21', '我是谁呢', '2018-11-27 22:22:42', 'sam', '746@qq.com', '0:0:0:0:0:0:0:1', 0, NULL, 10);
+INSERT INTO "public"."t_comment" VALUES ('cbd7c4a1c2d14341996817ef3e8708a7', '6a6713ff9153471480664ea01f870d21', '我是子集啊', '2018-11-27 22:24:00', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, 'a2406b05cac242b5b547ea68a9e3c841', 10);
+INSERT INTO "public"."t_comment" VALUES ('5905a38971bf43f39ab5832673d8eb24', '6a6713ff9153471480664ea01f870d21', '我是子集啊', '2018-11-27 22:31:44', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, 'a2406b05cac242b5b547ea68a9e3c841', 10);
+INSERT INTO "public"."t_comment" VALUES ('fd497e8f3ef347b99835d4f5f796ddf3', '6a6713ff9153471480664ea01f870d21', '我是3集啊', '2018-11-27 23:24:28', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, '5905a38971bf43f39ab5832673d8eb24', 10);
 
 -- ----------------------------
 -- Table structure for t_hot
@@ -254,6 +262,8 @@ INSERT INTO "public"."t_logit" VALUES ('06ee48e0cc9141b6a27b152ac3a25cbb', '0:0:
 INSERT INTO "public"."t_logit" VALUES ('ee4ab5715f5e42938b538168c5b7cbf2', '0:0:0:0:0:0:0:1', 'me.bestsamcn.blog.controllers.AdminController.login()', NULL, NULL, NULL, NULL, '2018-11-20 21:51:47.396', '登陆', 20, NULL);
 INSERT INTO "public"."t_logit" VALUES ('eb8dd92026d249e28e8dae517bdc5027', '0:0:0:0:0:0:0:1', 'me.bestsamcn.blog.controllers.AdminController.login()', NULL, NULL, NULL, NULL, '2018-11-22 21:06:02.231', '登陆', 20, NULL);
 INSERT INTO "public"."t_logit" VALUES ('037760657b18439fa54f7ea57a83eece', '0:0:0:0:0:0:0:1', 'me.bestsamcn.blog.controllers.AdminController.login()', NULL, NULL, NULL, NULL, '2018-11-22 21:22:09.978', '登陆', 20, NULL);
+INSERT INTO "public"."t_logit" VALUES ('d9bbbf905e284a76bb6058587fef9f4f', '0:0:0:0:0:0:0:1', 'me.bestsamcn.blog.controllers.AdminController.login()', NULL, NULL, NULL, NULL, '2018-11-27 22:32:39.163', '登陆', 20, NULL);
+INSERT INTO "public"."t_logit" VALUES ('f42c0e6385df4bd7a324cae9c858413f', '0:0:0:0:0:0:0:1', 'me.bestsamcn.blog.controllers.AdminController.login()', NULL, NULL, NULL, NULL, '2018-11-27 23:24:05.02', '登陆', 20, NULL);
 
 -- ----------------------------
 -- Table structure for t_message
@@ -419,5 +429,5 @@ ALTER TABLE "public"."t_article" ADD CONSTRAINT "fk_article_user_user" FOREIGN K
 -- ----------------------------
 -- Foreign Keys structure for table t_comment
 -- ----------------------------
-ALTER TABLE "public"."t_comment" ADD CONSTRAINT "comment_parentComment_fkey" FOREIGN KEY ("parent_id") REFERENCES "public"."t_comment" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE "public"."t_comment" ADD CONSTRAINT "comment_parentComment_fkey" FOREIGN KEY ("parent_id") REFERENCES "public"."t_comment" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."t_comment" ADD CONSTRAINT "fk_comment_article_article" FOREIGN KEY ("article_id") REFERENCES "public"."t_article" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT;
