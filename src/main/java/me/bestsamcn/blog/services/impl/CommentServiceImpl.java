@@ -6,6 +6,7 @@ import me.bestsamcn.blog.dao.BaseMapper;
 import me.bestsamcn.blog.dao.CommentMapper;
 import me.bestsamcn.blog.enums.CommentStatus;
 import me.bestsamcn.blog.models.Comment;
+import me.bestsamcn.blog.models.CommentTreeVO;
 import me.bestsamcn.blog.services.CommentService;
 import me.bestsamcn.blog.utils.Response;
 import me.bestsamcn.blog.utils.Tools;
@@ -115,6 +116,15 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
             map.put("pageIndex", pageInfo.getPageNum());
             map.put("pageSize", pageInfo.getPageSize());
             return Response.build(map);
+        }catch(Exception e){
+            e.printStackTrace();
+            return Response.error();
+        }
+    }
+    public Response getTree(){
+        try{
+            List<Object> list = this.getMapper().selectTree();
+            return Response.build(list);
         }catch(Exception e){
             e.printStackTrace();
             return Response.error();

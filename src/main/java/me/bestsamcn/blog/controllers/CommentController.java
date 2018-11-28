@@ -92,4 +92,10 @@ public class CommentController {
                             @RequestParam(name="keyword", required = false) String keyword){
         return commentService.getList(pageIndex, pageSize, type, keyword);
     }
+
+    @GetMapping(name="树", value="getTree")
+    @ResponseBody
+    public Response getTree(){
+        return commentService.getTree();
+    }
 }
