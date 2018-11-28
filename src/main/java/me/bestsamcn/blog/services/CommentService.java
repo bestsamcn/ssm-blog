@@ -40,5 +40,9 @@ public interface CommentService extends BaseService<Comment>{
      */
     public Response getList(int pageIndex, int pageSize, CommentStatus type, String keyword);
 
+    /**
+     * 树形结构
+     * @return
+     */
     public Response getTree();
 }

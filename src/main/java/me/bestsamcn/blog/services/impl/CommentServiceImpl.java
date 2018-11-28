@@ -121,6 +121,7 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
             return Response.error();
         }
     }
+    @Override
     public Response getTree(){
         try{
             List<Object> list = this.getMapper().selectTree();
