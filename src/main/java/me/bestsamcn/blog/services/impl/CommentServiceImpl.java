@@ -13,9 +13,8 @@ import me.bestsamcn.blog.utils.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * @Author: Sam
@@ -24,6 +23,8 @@ import java.util.Map;
 
 @Service("commentService")
 public class CommentServiceImpl extends BaseServiceImpl<Comment> implements CommentService {
+    private int level=0;
+    private String chain="";
 
     @Autowired
     CommentMapper commentMapper;
@@ -123,12 +124,30 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
     }
     @Override
     public Response getTree(){
+        this.chain = "";
+        this.level = 0;
         try{
             List<Object> list = this.getMapper().selectTree();
+            this.loop(list);
             return Response.build(list);
         }catch(Exception e){
             e.printStackTrace();
             return Response.error();
         }
+    }
+    private void loop(List<Object> parentList){
+        this.level++;
+        for(Object object:parentList){
+            CommentTreeVO commentTreeVO = ((CommentTreeVO) object);
+            String id = commentTreeVO.getId();
+            List<Object> _parentList = this.getMapper().selectChildren(id);
+            commentTreeVO.setChildren(_parentList);
+            commentTreeVO.setLevel(this.level);
+            commentTreeVO.setChain(this.chain);
+            if(_parentList != null && _parentList.size()>0){
+                loop(commentTreeVO.getChildren());
+            }
+        }
+        this.level--;
     }
 }

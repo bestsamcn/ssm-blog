@@ -12,4 +12,5 @@ public interface CommentMapper extends BaseMapper<Comment>{
     public List<Comment> selectAll(@Param("type") int type, @Param("keyword") String keyword);
 
     public List<Object> selectTree();
+    public List<Object> selectChildren(@Param("id") String id);
 }

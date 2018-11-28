@@ -8,8 +8,26 @@ public class CommentTreeVO {
     private String createName;
     private String createEmail;
     private Timestamp createTime;
+    private int level;
+    private String chain;
 
-    private List<CommentTreeVO> children;
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public String getChain() {
+        return chain;
+    }
+
+    public void setChain(String chain) {
+        this.chain = chain;
+    }
+
+    private List<Object> children;
 
     public String getId() {
         return id;
@@ -43,11 +61,11 @@ public class CommentTreeVO {
         this.createTime = createTime;
     }
 
-    public List<CommentTreeVO> getChildren() {
+    public List<Object> getChildren() {
         return children;
     }
 
-    public void setChildren(List<CommentTreeVO> children) {
+    public void setChildren(List<Object> children) {
         this.children = children;
     }
 }
