@@ -7,6 +7,25 @@ public class CommentTreeVO {
     private String id;
     private String createName;
     private String createEmail;
+    private String articleId;
+    private int likeNum;
+
+    public int getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(int likeNum) {
+        this.likeNum = likeNum;
+    }
+
+    public String getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
+    }
+
     private Timestamp createTime;
     private int level;
     private String chain;

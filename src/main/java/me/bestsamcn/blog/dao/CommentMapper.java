@@ -19,9 +19,10 @@ public interface CommentMapper extends BaseMapper<Comment>{
 
     /**
      * 获取根节点集合
+     * @param articleId
      * @return
      */
-    public List<Object> selectTreeRootList();
+    public List<Object> selectTreeRootList(@Param("articleId") String articleId);
 
     /**
      * 获取子点集合

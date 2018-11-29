@@ -42,7 +42,8 @@ public interface CommentService extends BaseService<Comment>{
 
     /**
      * 树形结构
+     * @param articleId
      * @return
      */
-    public Response getTreeList();
+    public Response getTreeList(String articleId);
 }

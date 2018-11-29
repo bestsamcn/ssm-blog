@@ -135,13 +135,17 @@
         <result column="create_name" property="createName"/>
         <result column="create_email" property="createEmail"/>
         <result column="create_time" property="createTime"/>
+        <result column="like_num" property="likeNum"/>
+        <result column="article_id" property="articleId"/>
 
         <!--<collection column="id" property="children" ofType="me.bestsamcn.blog.models.CommentTreeVO" select="selectChildren"/>-->
     </resultMap>
     <select id="selectTreeRootList" resultMap="commentTree">
-        select * from t_comment where parent_id='' or parent_id is NULL order by create_time desc
+        select * from t_comment where article_id='${articleId}' and (parent_id='' or parent_id is
+        NULL) order by
+        t_comment.create_time desc
     </select>
     <select id="selectTreeChildren" resultMap="commentTree" parameterType="java.lang.String">
-        select * from t_comment where parent_id =#{id, jdbcType=CHAR} order by create_time desc
+        select * from t_comment where parent_id =#{id, jdbcType=CHAR} order by t_comment.create_time desc
     </select>
 </mapper>

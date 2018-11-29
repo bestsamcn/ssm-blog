@@ -123,11 +123,11 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
         }
     }
     @Override
-    public Response getTreeList(){
+    public Response getTreeList(String articleId){
         this.chain = "";
         this.level = 0;
         try{
-            List<Object> list = this.getMapper().selectTreeRootList();
+            List<Object> list = this.getMapper().selectTreeRootList(articleId);
             this.loop(list);
             return Response.build(list);
         }catch(Exception e){
