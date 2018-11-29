@@ -36,10 +36,9 @@ public class PictureServiceImpl extends BaseServiceImpl<Picture> implements Pict
     PictureMapper pictureMapper;
 
     @Override
-    @Transactional
     public Response upload(String articleId, MultipartFile[] files, PictureType pictureType) {
 
-        //不能使用/resouces/picture，因为编译后无resource文件夹
+        //不能使用/resources/picture，因为编译后无resource文件夹
         String dir = httpServletRequest.getServletContext().getRealPath("/pictures/");
         List<String> ids = new ArrayList<String>();
         if(files.length == 0){
@@ -75,6 +74,13 @@ public class PictureServiceImpl extends BaseServiceImpl<Picture> implements Pict
 
     /**
      * 插入数据库
+     * @param id
+     * @param articleId
+     * @param originName
+     * @param suffix
+     * @param path
+     * @param size
+     * @param type
      * @return
      */
     private int add(String id, String articleId, String originName, String suffix, String path, long size, int type){
