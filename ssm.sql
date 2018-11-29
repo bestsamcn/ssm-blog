@@ -12,7 +12,7 @@
  Target Server Version : 90514
  File Encoding         : 65001
 
- Date: 27/11/2018 23:34:18
+ Date: 30/11/2018 00:21:19
 */
 
 
@@ -172,6 +172,11 @@ INSERT INTO "public"."t_comment" VALUES ('a2406b05cac242b5b547ea68a9e3c841', '6a
 INSERT INTO "public"."t_comment" VALUES ('cbd7c4a1c2d14341996817ef3e8708a7', '6a6713ff9153471480664ea01f870d21', '我是子集啊', '2018-11-27 22:24:00', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, 'a2406b05cac242b5b547ea68a9e3c841', 10);
 INSERT INTO "public"."t_comment" VALUES ('5905a38971bf43f39ab5832673d8eb24', '6a6713ff9153471480664ea01f870d21', '我是子集啊', '2018-11-27 22:31:44', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, 'a2406b05cac242b5b547ea68a9e3c841', 10);
 INSERT INTO "public"."t_comment" VALUES ('fd497e8f3ef347b99835d4f5f796ddf3', '6a6713ff9153471480664ea01f870d21', '我是3集啊', '2018-11-27 23:24:28', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, '5905a38971bf43f39ab5832673d8eb24', 10);
+INSERT INTO "public"."t_comment" VALUES ('4c053e91b1274fac9bc049a4f04e92d1', '6a6713ff9153471480664ea01f870d21', '我是3集啊', '2018-11-28 23:43:58', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, '5905a38971bf43f39ab5832673d8eb24', 10);
+INSERT INTO "public"."t_comment" VALUES ('b5e659e74652445f9fb3ddd470bdfc20', '6a6713ff9153471480664ea01f870d21', '我是344集啊', '2018-11-28 23:44:48', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, 'cbd7c4a1c2d14341996817ef3e8708a7', 10);
+INSERT INTO "public"."t_comment" VALUES ('d1e7c636d62c451fba4a94680f766706', '6a6713ff9153471480664ea01f870d21', '我是111集啊', '2018-11-28 23:45:02', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, NULL, 10);
+INSERT INTO "public"."t_comment" VALUES ('caef5fe671454ae6970a1f830b7f64f7', '6a6713ff9153471480664ea01f870d21', '我是111集啊', '2018-11-29 20:14:47', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, 'd1e7c636d62c451fba4a94680f766706', 10);
+INSERT INTO "public"."t_comment" VALUES ('14e648726bdd45dda86db4586451a15c', '6a6713ff9153471480664ea01f870d21', '我是111集啊', '2018-11-29 20:15:42', 'samsam', '7cc46@qq.com', '0:0:0:0:0:0:0:1', 0, NULL, 10);
 
 -- ----------------------------
 -- Table structure for t_hot
@@ -326,6 +331,29 @@ INSERT INTO "public"."t_notify" VALUES ('b1826cc218e44a3ab7c3d16c5e4f158f', '是
 INSERT INTO "public"."t_notify" VALUES ('956336b77ad24eefa418d55a0ed0a34a', '是士大夫十分发射点发顺丰', '2018-11-11 22:18:47', '2018-11-11 22:28:29', '2018-11-11 21:06:13', 20);
 
 -- ----------------------------
+-- Table structure for t_picture
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."t_picture";
+CREATE TABLE "public"."t_picture" (
+  "id" char(32) COLLATE "pg_catalog"."default" NOT NULL,
+  "name" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "create_time" timestamp(6),
+  "path" varchar(255) COLLATE "pg_catalog"."default",
+  "article_id" char(32) COLLATE "pg_catalog"."default",
+  "suffix" varchar(255) COLLATE "pg_catalog"."default",
+  "type" int4 NOT NULL DEFAULT 10,
+  "origin_name" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "size" int8
+)
+;
+
+-- ----------------------------
+-- Records of t_picture
+-- ----------------------------
+INSERT INTO "public"."t_picture" VALUES ('cea0d887d46e4c6e870eda72760889bf', 'cea0d887d46e4c6e870eda72760889bf', '2018-11-29 23:44:07.204', 'F:\Java\ssm-blog\target\ssm-blog-1.0-SNAPSHOT\pictures\cea0d887d46e4c6e870eda72760889bf.png', '2a54e5a5f5f140b2b3c3fcfa262e9a54', 'image/png', 0, '微信截图_20180906223117.png', 14385);
+INSERT INTO "public"."t_picture" VALUES ('84701b94a17045f8a0170d55cc0dfb27', '84701b94a17045f8a0170d55cc0dfb27', '2018-11-29 23:44:07.214', 'F:\Java\ssm-blog\target\ssm-blog-1.0-SNAPSHOT\pictures\84701b94a17045f8a0170d55cc0dfb27.png', '2a54e5a5f5f140b2b3c3fcfa262e9a54', 'image/png', 0, '2.png', 77656);
+
+-- ----------------------------
 -- Table structure for t_tag
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."t_tag";
@@ -402,6 +430,11 @@ ALTER TABLE "public"."t_message" ADD CONSTRAINT "pk_message" PRIMARY KEY ("id");
 ALTER TABLE "public"."t_notify" ADD CONSTRAINT "pk_notify" PRIMARY KEY ("id");
 
 -- ----------------------------
+-- Primary Key structure for table t_picture
+-- ----------------------------
+ALTER TABLE "public"."t_picture" ADD CONSTRAINT "t_file_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
 -- Indexes structure for table t_tag
 -- ----------------------------
 CREATE UNIQUE INDEX "tag_id_idx" ON "public"."t_tag" USING btree (
@@ -431,3 +464,8 @@ ALTER TABLE "public"."t_article" ADD CONSTRAINT "fk_article_user_user" FOREIGN K
 -- ----------------------------
 ALTER TABLE "public"."t_comment" ADD CONSTRAINT "comment_parentComment_fkey" FOREIGN KEY ("parent_id") REFERENCES "public"."t_comment" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "public"."t_comment" ADD CONSTRAINT "fk_comment_article_article" FOREIGN KEY ("article_id") REFERENCES "public"."t_article" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+-- ----------------------------
+-- Foreign Keys structure for table t_picture
+-- ----------------------------
+ALTER TABLE "public"."t_picture" ADD CONSTRAINT "article" FOREIGN KEY ("article_id") REFERENCES "public"."t_article" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT;
