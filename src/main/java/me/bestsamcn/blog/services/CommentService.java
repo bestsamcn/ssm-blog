@@ -44,5 +44,5 @@ public interface CommentService extends BaseService<Comment>{
      * 树形结构
      * @return
      */
-    public Response getTree();
+    public Response getTreeList();
 }

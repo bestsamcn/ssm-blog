@@ -138,10 +138,10 @@
 
         <!--<collection column="id" property="children" ofType="me.bestsamcn.blog.models.CommentTreeVO" select="selectChildren"/>-->
     </resultMap>
-    <select id="selectTree" resultMap="commentTree">
+    <select id="selectTreeRootList" resultMap="commentTree">
         select * from t_comment where parent_id='' or parent_id is NULL order by create_time desc
     </select>
-    <select id="selectChildren" resultMap="commentTree" parameterType="java.lang.String">
+    <select id="selectTreeChildren" resultMap="commentTree" parameterType="java.lang.String">
         select * from t_comment where parent_id =#{id, jdbcType=CHAR} order by create_time desc
     </select>
 </mapper>

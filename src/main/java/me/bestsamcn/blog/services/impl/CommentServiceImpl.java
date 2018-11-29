@@ -123,11 +123,11 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
         }
     }
     @Override
-    public Response getTree(){
+    public Response getTreeList(){
         this.chain = "";
         this.level = 0;
         try{
-            List<Object> list = this.getMapper().selectTree();
+            List<Object> list = this.getMapper().selectTreeRootList();
             this.loop(list);
             return Response.build(list);
         }catch(Exception e){
@@ -135,19 +135,34 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
             return Response.error();
         }
     }
+
+    /**
+     * 递归查询
+     * @param parentList
+     */
     private void loop(List<Object> parentList){
         this.level++;
         for(Object object:parentList){
             CommentTreeVO commentTreeVO = ((CommentTreeVO) object);
             String id = commentTreeVO.getId();
-            List<Object> _parentList = this.getMapper().selectChildren(id);
+            List<Object> _parentList = this.getMapper().selectTreeChildren(id);
+            this.chain = this.chain.isEmpty() ? this.chain+id : this.chain+","+id;
             commentTreeVO.setChildren(_parentList);
             commentTreeVO.setLevel(this.level);
             commentTreeVO.setChain(this.chain);
             if(_parentList != null && _parentList.size()>0){
                 loop(commentTreeVO.getChildren());
             }
+
+            //每次完成loop，均要将chain恢复到上一次的位置
+            if(this.chain.lastIndexOf(",") != -1){
+                this.chain = this.chain.substring(0, this.chain.lastIndexOf(","));
+            }else{
+                this.chain = "";
+            }
         }
+
+        //每次完成loop，需要返回上一级
         this.level--;
     }
 }

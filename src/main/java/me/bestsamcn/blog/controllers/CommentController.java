@@ -96,6 +96,6 @@ public class CommentController {
     @GetMapping(name="树", value="getTree")
     @ResponseBody
     public Response getTree(){
-        return commentService.getTree();
+        return commentService.getTreeList();
     }
 }
