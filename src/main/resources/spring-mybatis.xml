@@ -14,6 +14,7 @@
     <typeHandlers>
         <typeHandler handler="me.bestsamcn.blog.convertors.ArticleTypeHandler" javaType="me.bestsamcn.blog.enums.ArticleType"/>
         <typeHandler handler="me.bestsamcn.blog.convertors.CommentStatusHandler" javaType="me.bestsamcn.blog.enums.CommentStatus"/>
+        <typeHandler handler="me.bestsamcn.blog.convertors.PictureTypeHandler" javaType="me.bestsamcn.blog.enums.PictureType"/>
     </typeHandlers>
 
     <!--分页插件拦截-->

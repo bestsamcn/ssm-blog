@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.bestsamcn.blog.dao.PictureMapper" >
+  <resultMap id="BaseResultMap" type="me.bestsamcn.blog.models.Picture" >
+    <id column="picture_id" property="id" jdbcType="CHAR" />
+    <result column="picture_name" property="name" jdbcType="VARCHAR" />
+    <result column="picture_create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="picture_path" property="path" jdbcType="VARCHAR" />
+    <result column="picture_article_id" property="articleId" jdbcType="CHAR" />
+    <result column="picture_suffix" property="suffix" jdbcType="VARCHAR" />
+    <result column="picture_type" property="type" jdbcType="INTEGER" />
+    <result column="picture_origin_name" property="originName" jdbcType="VARCHAR" />
+    <result column="picture_size" property="size" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    picture.id as picture_id, picture.name as picture_name, picture.create_time as picture_create_time, 
+    picture.path as picture_path, picture.article_id as picture_article_id, picture.suffix as picture_suffix, 
+    picture.type as picture_type, picture.origin_name as picture_origin_name, picture.size as picture_size
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_picture picture
+    where picture.id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_picture
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="me.bestsamcn.blog.models.Picture" >
+    insert into t_picture (id, name, create_time, 
+      path, article_id, suffix, 
+      type, origin_name, size
+      )
+    values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{path,jdbcType=VARCHAR}, #{articleId,jdbcType=CHAR}, #{suffix,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{originName,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="me.bestsamcn.blog.models.Picture" >
+    update t_picture
+    set name = #{name,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      path = #{path,jdbcType=VARCHAR},
+      article_id = #{articleId,jdbcType=CHAR},
+      suffix = #{suffix,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      origin_name = #{originName,jdbcType=VARCHAR},
+      size = #{size,jdbcType=INTEGER}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>
