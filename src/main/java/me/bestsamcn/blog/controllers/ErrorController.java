@@ -11,6 +11,6 @@ public class ErrorController {
     @ExceptionHandler({RuntimeException.class})
     @ResponseBody
     public Response handleException(Exception e){
-        return Response.error("exception: "+e.getMessage());
+        return Response.error("exception: "+e);
     }
 }

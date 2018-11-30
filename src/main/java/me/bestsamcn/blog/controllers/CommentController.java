@@ -96,6 +96,7 @@ public class CommentController {
     @GetMapping(name="树", value="getTree")
     @ResponseBody
     public Response getTree(@RequestParam("articleId") String articleId) throws Exception{
+        System.out.println(10/0);
         return commentService.getTreeList(articleId);
     }
 }
