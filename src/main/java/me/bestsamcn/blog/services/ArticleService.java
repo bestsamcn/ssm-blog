@@ -29,7 +29,7 @@ public interface ArticleService extends BaseService<Article> {
      * @return
      */
     public Response add(String creatorId, String categoryId, String tagId, String title, String previewText, String content, String codeContent, String poster,
-                        ArticleType isPrivate);
+                        ArticleType isPrivate) throws Exception;
 
 
     /**

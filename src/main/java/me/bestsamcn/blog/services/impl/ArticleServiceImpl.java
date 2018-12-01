@@ -5,10 +5,8 @@ import com.github.pagehelper.PageInfo;
 import me.bestsamcn.blog.dao.ArticleMapper;
 import me.bestsamcn.blog.enums.ArticleNumberType;
 import me.bestsamcn.blog.enums.ArticleType;
-import me.bestsamcn.blog.enums.NotifyType;
 import me.bestsamcn.blog.models.Article;
 import me.bestsamcn.blog.models.ArticleVO;
-import me.bestsamcn.blog.models.Notify;
 import me.bestsamcn.blog.services.ArticleService;
 import me.bestsamcn.blog.utils.Response;
 import me.bestsamcn.blog.utils.Tools;
@@ -38,7 +36,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
 
     @Override
     public Response add(String creatorId, String categoryId, String tagId, String title, String previewText, String content, String codeContent, String poster,
-                        ArticleType isPrivate) {
+                        ArticleType isPrivate) throws Exception {
         Timestamp now = Tools.getTimestamp();
         Article article = new Article();
         article.setId(Tools.getUUID());
@@ -54,6 +52,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
         article.setReadNum(0);
         article.setThumbnail("");
         article.setLikeNum(0);
+        article.setPinyin(Tools.getPinyin(title));
         article.setPreviewText(previewText);
         article.setCommentNum(0);
         try{
@@ -92,6 +91,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
             }
             if(title !=null && !title.isEmpty()){
                 article.setTitle(title);
+                article.setPinyin(Tools.getPinyin(title));
             }else{
                 return Response.error("标题不能为空");
             }

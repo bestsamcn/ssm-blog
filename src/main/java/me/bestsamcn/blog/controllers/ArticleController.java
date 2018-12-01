@@ -44,7 +44,7 @@ public class ArticleController {
                         @RequestParam("codeContent") String codeContent,
                         @RequestParam(name="poster", required = false, defaultValue = "") String poster,
                         @RequestParam(name="isPrivate", required = false, defaultValue = "PUBLIC") ArticleType isPrivate,
-                        @CookieValue("JSESSIONID") String JSESSIONID){
+                        @CookieValue("JSESSIONID") String JSESSIONID) throws Exception{
         Admin admin = Tools.getAdmin(JSESSIONID);
         Response res = articleService.add(admin.getId(), categoryId, tagId, title, previewText, content, codeContent, poster, isPrivate);
         return res;

@@ -1,6 +1,10 @@
 package me.bestsamcn.blog.utils;
 
 import me.bestsamcn.blog.models.Admin;
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -317,5 +321,34 @@ public class Tools {
             ip = httpServletRequest.getRemoteAddr();
         }
         return ip;
+    }
+
+    /**
+     * 获取首字母和全字母拼音
+     * @param str
+     * @return
+     */
+    public static String getPinyin(String str) throws Exception{
+        if(str == null || str.isEmpty()){
+            return "";
+        }
+        char[] chars = str.trim().toCharArray();
+        HanyuPinyinOutputFormat hanyuPinyinOutputFormat = new HanyuPinyinOutputFormat();
+        hanyuPinyinOutputFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        hanyuPinyinOutputFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        String allPinyin="";
+        String sglPinyin="";
+        for(int i=0; i<chars.length; i++){
+            String _temp = String.valueOf(chars[i]);
+            if(_temp.matches("[\u4e00-\u9fa5]")){
+                String s = PinyinHelper.toHanYuPinyinString(_temp, hanyuPinyinOutputFormat, "", true);
+                sglPinyin+= s.substring(0,1);
+                allPinyin+=s;
+            }else{
+                allPinyin+=_temp;
+                sglPinyin+=_temp;
+            }
+        }
+        return allPinyin+","+sglPinyin;
     }
 }

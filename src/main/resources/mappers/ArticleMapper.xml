@@ -134,6 +134,7 @@
             <if test="keyword != null and keyword !=''">
                 AND (article.title~'${keyword}'
                 OR article.content~'${keyword}'
+                OR article.pinyin~'${keyword}'
                 OR article.preview_text~'${keyword}'
                 OR tag.name~'${keyword}'
                 OR category.name~'${keyword}')
