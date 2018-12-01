@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import me.bestsamcn.blog.dao.BaseMapper;
 import me.bestsamcn.blog.dao.CommentMapper;
+import me.bestsamcn.blog.enums.CommentLikeType;
 import me.bestsamcn.blog.enums.CommentStatus;
 import me.bestsamcn.blog.models.Comment;
 import me.bestsamcn.blog.models.CommentTreeVO;
@@ -164,5 +165,32 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
 
         //每次完成loop，需要返回上一级
         this.level--;
+    }
+
+    @Override
+    public Response setLike(String id, CommentLikeType type) {
+        if(!Tools.isId(id)){
+            return Response.error("无此数据");
+        }
+        try {
+
+            Comment comment = this.getMapper().selectByPrimaryKey(id);
+            if(comment == null){
+                return Response.error("无此数据");
+            }
+            if(type.name() == "YES"){
+                comment.setLikeNum(comment.getLikeNum()+1);
+            }else{
+                comment.setLikeNum(comment.getLikeNum()-1);
+            }
+            int row = this.getMapper().updateByPrimaryKey(comment);
+            if(row == 1){
+                return Response.success();
+            }
+            return Response.error();
+        }catch (Exception e){
+            e.printStackTrace();
+            return Response.error();
+        }
     }
 }

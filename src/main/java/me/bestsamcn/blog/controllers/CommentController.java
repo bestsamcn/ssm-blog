@@ -1,9 +1,8 @@
 package me.bestsamcn.blog.controllers;
 
 import me.bestsamcn.blog.annotations.LoginRequired;
-import me.bestsamcn.blog.enums.ArticleNumberType;
+import me.bestsamcn.blog.enums.CommentLikeType;
 import me.bestsamcn.blog.enums.CommentStatus;
-import me.bestsamcn.blog.models.ArticleVO;
 import me.bestsamcn.blog.models.Comment;
 import me.bestsamcn.blog.services.CommentService;
 import me.bestsamcn.blog.utils.Response;
@@ -41,6 +40,7 @@ public class CommentController {
 
     @PostMapping(name="编辑", value="edit")
     @ResponseBody
+    @LoginRequired
     public Response add(@RequestParam("commentId") String commentId,
                         @RequestParam("content") String content){
         return commentService.edit(commentId, content);
@@ -98,5 +98,11 @@ public class CommentController {
     public Response getTree(@RequestParam("articleId") String articleId) throws Exception{
         System.out.println(10/0);
         return commentService.getTreeList(articleId);
+    }
+
+    @PostMapping(name="喜恶", value="setLike")
+    @ResponseBody
+    public Response setLike(@RequestParam("id") String id, @RequestParam("type") CommentLikeType type){
+        return commentService.setLike(id, type);
     }
 }

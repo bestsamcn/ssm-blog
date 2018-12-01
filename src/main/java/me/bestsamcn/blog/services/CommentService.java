@@ -1,5 +1,6 @@
 package me.bestsamcn.blog.services;
 
+import me.bestsamcn.blog.enums.CommentLikeType;
 import me.bestsamcn.blog.enums.CommentStatus;
 import me.bestsamcn.blog.models.Comment;
 import me.bestsamcn.blog.utils.Response;
@@ -46,4 +47,12 @@ public interface CommentService extends BaseService<Comment>{
      * @return
      */
     public Response getTreeList(String articleId);
+
+    /**
+     * 赞|踩
+     * @param id
+     * @param type
+     * @return
+     */
+    public Response setLike(String id, CommentLikeType type);
 }

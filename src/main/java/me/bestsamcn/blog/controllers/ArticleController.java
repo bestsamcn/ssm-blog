@@ -87,7 +87,7 @@ public class ArticleController {
     }
 
 
-    @GetMapping(name="查询", value="getList")
+    @GetMapping(name="分页", value="getList")
     @ResponseBody
     public Response getList(@RequestParam(name="pageIndex", defaultValue = "1", required = false) int pageIndex,
                             @RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
